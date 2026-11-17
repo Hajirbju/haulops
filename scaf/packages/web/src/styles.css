@@ -2378,24 +2378,6 @@ table thead th {
 
 
 /* ---- Topbar toggle & sidebar ciut (rail ikon) ---- */
-.topbar-toggle {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border: 0;
-  border-radius: 12px;
-  background: var(--surface-2);
-  color: var(--text);
-  transition: background-color 0.15s ease;
-}
-
-.topbar-toggle:hover {
-  background: var(--cream-deep);
-}
-
-.topbar-toggle:focus-visible,
 .nav-group a:focus-visible,
 .sidebar-icon-btn:focus-visible {
   outline: 2px solid var(--amber);
@@ -2953,4 +2935,30 @@ tbody tr:hover {
 
 .modal-footer .primary-link:hover {
   background: color-mix(in srgb, var(--gold) 88%, var(--amber));
+}
+
+/* Logo = tombol ciut/buka sidebar. */
+button.sidebar-logo {
+  width: 100%;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+button.sidebar-logo:hover {
+  background: transparent;
+}
+
+button.sidebar-logo:hover .logo-box {
+  filter: brightness(0.95);
+}
+
+button.sidebar-logo:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -4px;
 }
