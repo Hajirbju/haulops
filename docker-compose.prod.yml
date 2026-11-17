@@ -3,6 +3,7 @@
 # Jalankan dari root repo:
 #   cp deploy/.env.example deploy/.env      # lalu isi nilainya
 #   docker compose --env-file deploy/.env -f docker-compose.prod.yml up -d --build
+#   (tambahkan `--profile https` bila server tidak punya Nginx/panel sendiri)
 #
 # Detail langkah: docs/DEPLOYMENT_VPS.md
 
@@ -63,11 +64,17 @@ services:
     restart: unless-stopped
     depends_on:
       - server
+    ports:
+      # Hanya di localhost. Dipakai reverse proxy host (mis. Nginx aaPanel) atau Caddy.
+      - "127.0.0.1:${WEB_PORT:-8580}:80"
     volumes:
       # Menimpa config bawaan image agar /api diteruskan ke backend.
       - ./deploy/nginx.vps.conf:/etc/nginx/conf.d/default.conf:ro
 
+  # Opsional: hanya untuk server TANPA Nginx/panel di port 80/443.
+  # Aktifkan dengan: docker compose --profile https up -d
   caddy:
+    profiles: ["https"]
     image: caddy:2-alpine
     restart: unless-stopped
     depends_on:

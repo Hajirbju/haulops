@@ -93,6 +93,21 @@ Let's Encrypt tidak menerbitkan sertifikat untuk alamat IP biasa, jadi `DOMAIN=:
 **HTTP tanpa enkripsi**: password dan token login terkirim polos. Pakai hanya untuk uji
 atau jaringan tertutup. Untuk produksi, daftarkan subdomain dan isi `DOMAIN`.
 
+## 4b. Server yang sudah memakai Nginx/aaPanel (port 80/443 terpakai)
+
+Jika server sudah menjalankan situs lain lewat Nginx panel (mis. aaPanel), **jangan** aktifkan
+Caddy. Stack ini hanya membuka frontend di `127.0.0.1:WEB_PORT` (bawaan `8580`), lalu Nginx
+panel yang menangani domain dan HTTPS. Sistem lain di server tidak tersentuh: HAULOPS memakai
+nama project Compose `haulops`, jaringan, dan volume sendiri.
+
+1. Pastikan `WEB_PORT` belum dipakai layanan lain (ubah di `deploy/.env` bila bentrok).
+2. Jalankan stack seperti langkah 4 (tanpa `--profile https`).
+3. Di panel: **Website → Proxy Project → Add**:
+   - Domain: subdomain khusus HAULOPS (DNS A record ke IP server).
+   - Target URL: `http://127.0.0.1:8580`
+4. Buka project tersebut → **SSL** → Let's Encrypt → aktifkan, lalu nyalakan Force HTTPS.
+5. Uji `https://SUBDOMAIN/api/health`.
+
 ## 5. Pindahkan data dari Supabase (opsional)
 
 Lewati bagian ini jika memulai dari database kosong.
