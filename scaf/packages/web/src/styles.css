@@ -2931,3 +2931,31 @@ tbody tr:hover {
 .stat-grid {
   margin-bottom: 12px;
 }
+
+/* Grup tombol aksi di baris filter (rata kanan). */
+.toolbar-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* Form input cepat: satu kontainer tipis, satu baris. */
+.toolbar-panel.entry-panel {
+  margin-bottom: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-box);
+  padding: 14px 16px;
+  background: var(--card);
+}
+
+.entry-panel label {
+  min-width: 120px;
+}
+
+.entry-panel label.entry-grow {
+  flex: 1 1 200px;
+}
+
+.entry-panel input {
+  width: 100%;
+}

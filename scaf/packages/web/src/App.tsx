@@ -2453,17 +2453,6 @@ const RitPage = () => {
 
   return (
     <>
-      <PageHeader
-        title="Rit Operation"
-        description="Input rit harian untuk shift aktif, lengkap dengan unit, material, dan tonase."
-        action={
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button onClick={loadRits}>Muat Ulang</button>
-            <button onClick={() => { setImportText(''); setIsImportOpen(true); }}>Import Timbangan (CSV)</button>
-            <button className="primary-link" onClick={openGrid}>+ Tambah Rit</button>
-          </div>
-        }
-      />
       {message ? <div className="inline-alert">{message}</div> : null}
       <section className="toolbar-panel">
         <label>
@@ -2503,6 +2492,11 @@ const RitPage = () => {
             ))}
           </select>
         </label>
+        <div className="toolbar-actions">
+          <button type="button" onClick={loadRits}>Muat Ulang</button>
+          <button type="button" onClick={() => { setImportText(''); setIsImportOpen(true); }}>Import CSV</button>
+          <button className="primary-link" type="button" onClick={openGrid}>+ Tambah Rit</button>
+        </div>
       </section>
 
       {isImportOpen ? (
@@ -2722,7 +2716,7 @@ const RitPage = () => {
         </div>
       ) : null}
 
-      <section className="toolbar-panel">
+      <section className="toolbar-panel entry-panel">
         <label>
           Material
           <input value={material} onChange={(event) => setMaterial(event.target.value)} />
@@ -2752,12 +2746,12 @@ const RitPage = () => {
             onChange={(event) => setTareKg(event.target.value ? Number(event.target.value) : undefined)}
           />
         </label>
-        <label style={{ flex: '1 1 100%' }}>
+        <label className="entry-grow">
           Catatan
           <input value={catatan} onChange={(event) => setCatatan(event.target.value)} />
         </label>
         <button className="primary-link" onClick={createRit} type="button">
-          Simpan Rit Baru
+          Simpan
         </button>
       </section>
 
