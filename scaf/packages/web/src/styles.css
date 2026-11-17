@@ -2859,3 +2859,28 @@ tbody tr:hover {
 .page-header {
   margin-bottom: 12px;
 }
+
+/* --- Utilitas standar (pengganti style inline berulang) --- */
+.muted {
+  color: var(--muted);
+}
+
+.empty-state {
+  padding: 28px 16px;
+  color: var(--muted);
+  font-size: var(--font-size-base);
+  text-align: center;
+}
+
+/* Bar progres tipis & kartu budget mengikuti skala radius standar. */
+.delay-row div:last-child {
+  height: 6px;
+}
+
+.delay-row div:last-child span {
+  background: var(--amber);
+}
+
+.budget-card {
+  border-radius: var(--r-ctl);
+}

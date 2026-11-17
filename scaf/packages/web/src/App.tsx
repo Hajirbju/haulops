@@ -1005,8 +1005,8 @@ const BranchCompareTable = ({ rows }: { rows: DashboardCompareRow[] }) => (
           {rows.map((r) => (
             <tr key={r.branchId}>
               <td><strong>{r.nama}</strong></td>
-              <td className="num">{r.paMtdPct.toFixed(1)}%{r.paTargetPct != null ? <span style={{ color: 'var(--muted)' }}> /{r.paTargetPct.toFixed(0)}%</span> : null}</td>
-              <td className="num">{r.uaMtdPct.toFixed(1)}%{r.uaTargetPct != null ? <span style={{ color: 'var(--muted)' }}> /{r.uaTargetPct.toFixed(0)}%</span> : null}</td>
+              <td className="num">{r.paMtdPct.toFixed(1)}%{r.paTargetPct != null ? <span className="muted"> /{r.paTargetPct.toFixed(0)}%</span> : null}</td>
+              <td className="num">{r.uaMtdPct.toFixed(1)}%{r.uaTargetPct != null ? <span className="muted"> /{r.uaTargetPct.toFixed(0)}%</span> : null}</td>
               <td className="num">{r.breakdownCountMtd}</td>
               <td className="num">{formatNumber(r.delayMinMtd)}</td>
               <td className="num">{formatNumber(r.ritaseMtd)}</td>
@@ -1017,7 +1017,7 @@ const BranchCompareTable = ({ rows }: { rows: DashboardCompareRow[] }) => (
               <td><span className={`status-badge ${r.status}`}>{STATUS_LABEL[r.status]}</span></td>
             </tr>
           ))}
-          {!rows.length ? <tr><td colSpan={11} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada branch aktif.</td></tr> : null}
+          {!rows.length ? <tr><td colSpan={11} className="empty-state">Belum ada branch aktif.</td></tr> : null}
         </tbody>
       </table>
     </div>
@@ -1053,7 +1053,7 @@ const MaterialTargetTable = ({ rows }: { rows: DashboardDailyResponse['productio
                 </tr>
               );
             })}
-            {!rows.length ? <tr><td colSpan={6} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada produksi tercatat.</td></tr> : null}
+            {!rows.length ? <tr><td colSpan={6} className="empty-state">Belum ada produksi tercatat.</td></tr> : null}
           </tbody>
         </table>
       </div>
@@ -1076,7 +1076,7 @@ const UnitRankingTable = ({ rows }: { rows: DashboardDailyResponse['unitRanking'
               <td className="num">{formatNumber(u.delayMin)}</td>
             </tr>
           ))}
-          {!rows.length ? <tr><td colSpan={4} style={{ textAlign: 'center', padding: '16px 0' }}>Tidak ada unit bermasalah hari ini.</td></tr> : null}
+          {!rows.length ? <tr><td colSpan={4} className="empty-state">Tidak ada unit bermasalah hari ini.</td></tr> : null}
         </tbody>
       </table>
     </div>
@@ -1134,7 +1134,7 @@ const Dashboard = ({ health }: { health: HealthState }) => {
       </section>
 
       {error ? <div className="inline-alert">{error}</div> : null}
-      {isLoading ? <p style={{ color: 'var(--muted)' }}>Memuat data...</p> : null}
+      {isLoading ? <p className="muted">Memuat data...</p> : null}
 
       {compareMode ? (
         <BranchCompareTable rows={compareRows} />
@@ -1163,7 +1163,7 @@ const Dashboard = ({ health }: { health: HealthState }) => {
                     </div>
                   );
                 })}
-                {!daily.delay.length ? <p style={{ opacity: 0.7 }}>Belum ada jenis delay.</p> : null}
+                {!daily.delay.length ? <p className="muted">Belum ada jenis delay.</p> : null}
               </div>
             </section>
 
@@ -1183,7 +1183,7 @@ const Dashboard = ({ health }: { health: HealthState }) => {
                         <td><span className={`status-badge ${b.status}`}>{STATUS_LABEL[b.status]}</span></td>
                       </tr>
                     ))}
-                    {!daily.bbm.length ? <tr><td colSpan={6} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada konsumsi BBM hari ini.</td></tr> : null}
+                    {!daily.bbm.length ? <tr><td colSpan={6} className="empty-state">Belum ada konsumsi BBM hari ini.</td></tr> : null}
                   </tbody>
                 </table>
               </div>
@@ -1595,8 +1595,8 @@ const ShiftPage = () => {
                   Unit DT Aktif Shift Ini ({selectedCount}/{units.length})
                 </div>
                 <div className="modal-section-actions">
-                  <button type="button" className="btn-ghost-sm" onClick={() => setIsGenerateOpen(true)}>📋 Generate dari Tanggal Lain</button>
-                  <button type="button" className="btn-gold-sm" onClick={generateAllUnits}>⚡ Generate Semua Unit Aktif</button>
+                  <button type="button" className="btn-ghost-sm" onClick={() => setIsGenerateOpen(true)}>Generate dari Tanggal Lain</button>
+                  <button type="button" className="btn-gold-sm" onClick={generateAllUnits}>Generate Semua Unit Aktif</button>
                 </div>
               </div>
               <div className="modal-unit-list">
@@ -1647,7 +1647,7 @@ const ShiftPage = () => {
                       );
                     })}
                     {!rowUnitIds.length ? (
-                      <tr><td colSpan={7} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada unit. Tambahkan unit di bawah atau klik ⚡ Generate Semua Unit Aktif.</td></tr>
+                      <tr><td colSpan={7} className="empty-state">Belum ada unit. Tambahkan unit di bawah atau klik Generate Semua Unit Aktif.</td></tr>
                     ) : null}
                   </tbody>
                 </table>
@@ -1660,7 +1660,7 @@ const ShiftPage = () => {
                   ))}
                 </select>
                 <button type="button" className="btn-ghost-sm" disabled={!addUnitId} onClick={() => addUnitRow(addUnitId)}>+ Tambah Unit Lain</button>
-                {!availableUnits.length ? <small style={{ color: 'var(--muted)' }}>Semua unit sudah ditambahkan.</small> : null}
+                {!availableUnits.length ? <small className="muted">Semua unit sudah ditambahkan.</small> : null}
               </div>
             </div>
             <div className="modal-footer">
@@ -1745,7 +1745,7 @@ const ShiftPage = () => {
                       </tr>
                     ))}
                     {!detailUnits.length ? (
-                      <tr><td colSpan={4} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada unit ter-assign untuk shift ini.</td></tr>
+                      <tr><td colSpan={4} className="empty-state">Belum ada unit ter-assign untuk shift ini.</td></tr>
                     ) : null}
                   </tbody>
                 </table>
@@ -2056,7 +2056,7 @@ const OperatorStatusPage = () => {
                       })}
                     </tr>
                   ))}
-                  {!monthRows.length ? <tr><td colSpan={dayList.length + 1} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada operator aktif di branch ini.</td></tr> : null}
+                  {!monthRows.length ? <tr><td colSpan={dayList.length + 1} className="empty-state">Belum ada operator aktif di branch ini.</td></tr> : null}
                 </tbody>
               </table>
             </div>
@@ -2090,7 +2090,7 @@ const OperatorStatusPage = () => {
                       <td>{h.catatan ?? '-'}</td>
                     </tr>
                   ))}
-                  {!history.length ? <tr><td colSpan={3} style={{ textAlign: 'center', padding: '16px 0' }}>Pilih operator & klik "Lihat Riwayat".</td></tr> : null}
+                  {!history.length ? <tr><td colSpan={3} className="empty-state">Pilih operator & klik "Lihat Riwayat".</td></tr> : null}
                 </tbody>
               </table>
             </div>
@@ -2465,7 +2465,7 @@ const RitPage = () => {
         action={
           <div style={{ display: 'flex', gap: 8 }}>
             <button onClick={loadRits}>Muat Ulang</button>
-            <button onClick={() => { setImportText(''); setIsImportOpen(true); }}>📥 Import Timbangan (CSV)</button>
+            <button onClick={() => { setImportText(''); setIsImportOpen(true); }}>Import Timbangan (CSV)</button>
             <button className="primary-link" onClick={openGrid}>+ Tambah Rit</button>
           </div>
         }
@@ -2604,7 +2604,7 @@ const RitPage = () => {
                 <div className="modal-section-title" style={{ margin: 0 }}>Data Rit per Unit ({gridRows.length} baris)</div>
                 <div className="modal-section-actions">
                   <button type="button" className="btn-ghost-sm" onClick={fillDown}>⬇ Isi ke Bawah</button>
-                  <button type="button" className="btn-ghost-sm" onClick={duplicateLastRow}>📋 Duplikat</button>
+                  <button type="button" className="btn-ghost-sm" onClick={duplicateLastRow}>Duplikat</button>
                   <button type="button" className="btn-gold-sm" onClick={addGridRow}>+ Baris Baru</button>
                 </div>
               </div>
@@ -2645,7 +2645,7 @@ const RitPage = () => {
                             </select>
                           </td>
                           <td>
-                            <span style={{ color: 'var(--muted)' }}>
+                            <span className="muted">
                               {rowUnit?.tipe?.nama ?? '-'}
                               {kapasitas ? ` • ${kapasitas} t` : ''}
                             </span>
@@ -2679,7 +2679,7 @@ const RitPage = () => {
                               const j = jarakFor(row.pitId, row.stockpileId);
                               return j != null
                                 ? <span title="Otomatis dari matriks jarak master">{formatNumber(j)} km</span>
-                                : <span style={{ color: 'var(--muted)', fontStyle: 'italic' }} title="Jarak belum diisi di master Pit & Stockpile">—</span>;
+                                : <span className="muted" title="Jarak belum diisi di master Pit & Stockpile">—</span>;
                             })()}
                           </td>
                           <td>
@@ -2722,7 +2722,7 @@ const RitPage = () => {
             </div>
             <div className="modal-footer">
               <button type="button" onClick={() => setIsGridOpen(false)}>Batal</button>
-              <button className="primary-link" type="button" onClick={saveAllRows}>💾 Simpan Semua Rit</button>
+              <button className="primary-link" type="button" onClick={saveAllRows}>Simpan Semua Rit</button>
             </div>
           </div>
         </div>
@@ -2867,7 +2867,7 @@ const RitPage = () => {
                     {rit.nettoTon
                       ? `${formatNumber(rit.nettoTon)} t`
                       : rit.estimasiTon
-                        ? <span style={{ color: 'var(--muted)', fontStyle: 'italic' }} title="Estimasi dari kapasitas unit">~{formatNumber(rit.estimasiTon)} t</span>
+                        ? <span className="muted" title="Estimasi dari kapasitas unit">~{formatNumber(rit.estimasiTon)} t</span>
                         : '-'}
                   </td>
                   <td>{rit.statusTimbangan}</td>
@@ -2881,7 +2881,7 @@ const RitPage = () => {
               ))}
               {!rits.length && !isLoading ? (
                 <tr>
-                  <td colSpan={13} style={{ textAlign: 'center', padding: '24px 0' }}>
+                  <td colSpan={13} className="empty-state">
                     Belum ada data rit untuk shift terpilih.
                   </td>
                 </tr>
@@ -3046,8 +3046,8 @@ const ApprovalPage = () => {
               /> &nbsp;Pilih Semua ({selShifts.length})
             </label>
             <div style={{ display: 'flex', gap: 8, marginLeft: 'auto' }}>
-              <button type="button" className="btn-gold-sm" onClick={() => bulkShift('approve')}>✓ Approve Selected</button>
-              <button type="button" className="btn-danger-sm" onClick={() => bulkShift('reject')}>✕ Reject Selected</button>
+              <button type="button" className="btn-gold-sm" onClick={() => bulkShift('approve')}>Approve Selected</button>
+              <button type="button" className="btn-danger-sm" onClick={() => bulkShift('reject')}>Reject Selected</button>
             </div>
           </section>
           {pendingShifts.map((shift) => (
@@ -3064,13 +3064,13 @@ const ApprovalPage = () => {
                 <article className="stat-card"><span>UA</span><strong>{shift.kpi.ua}%</strong></article>
               </div>
               <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 12 }}>
-                <button type="button" className="btn-danger-sm" onClick={() => decideShift(shift.id, 'reject')}>✕ Reject</button>
-                <button type="button" className="primary-link" onClick={() => decideShift(shift.id, 'approve')}>✓ Approve Shift</button>
+                <button type="button" className="btn-danger-sm" onClick={() => decideShift(shift.id, 'reject')}>Reject</button>
+                <button type="button" className="primary-link" onClick={() => decideShift(shift.id, 'approve')}>Approve Shift</button>
               </div>
             </section>
           ))}
           {!pendingShifts.length && !isLoading ? (
-            <section className="card"><p style={{ textAlign: 'center', padding: '24px 0', opacity: 0.7 }}>Tidak ada shift menunggu approval.</p></section>
+            <section className="card"><p className="empty-state">Tidak ada shift menunggu approval.</p></section>
           ) : null}
         </>
       ) : null}
@@ -3086,8 +3086,8 @@ const ApprovalPage = () => {
               /> &nbsp;Pilih Semua ({selEr.length})
             </label>
             <div style={{ display: 'flex', gap: 8, marginLeft: 'auto' }}>
-              <button type="button" className="btn-gold-sm" onClick={() => bulkEr('approve')}>✓ Approve Selected</button>
-              <button type="button" className="btn-danger-sm" onClick={() => bulkEr('reject')}>✕ Reject Selected</button>
+              <button type="button" className="btn-gold-sm" onClick={() => bulkEr('approve')}>Approve Selected</button>
+              <button type="button" className="btn-danger-sm" onClick={() => bulkEr('reject')}>Reject Selected</button>
             </div>
           </section>
           {editRequests.map((req) => {
@@ -3099,7 +3099,7 @@ const ApprovalPage = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
                   <input type="checkbox" checked={selEr.includes(req.id)} onChange={() => toggleSel(setSelEr, req.id)} />
                   <strong style={{ color: 'var(--brown-deep)' }}>{req.tipe} · {req.recordId.slice(0, 12)}</strong>
-                  <span style={{ color: 'var(--muted)', fontSize: 12 }}>{new Date(req.createdAt).toLocaleString('id-ID')}</span>
+                  <span className="muted">{new Date(req.createdAt).toLocaleString('id-ID')}</span>
                 </div>
                 <div style={{ display: 'grid', gap: 8 }}>
                   {(keys.length ? keys : [req.field]).map((k) => (
@@ -3118,14 +3118,14 @@ const ApprovalPage = () => {
                 </div>
                 <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 10 }}>Alasan: {req.alasan}</p>
                 <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-                  <button type="button" className="btn-danger-sm" onClick={() => decideEr(req.id, 'reject')}>✕ Reject</button>
-                  <button type="button" className="btn-gold-sm" onClick={() => decideEr(req.id, 'approve')}>✓ Approve</button>
+                  <button type="button" className="btn-danger-sm" onClick={() => decideEr(req.id, 'reject')}>Reject</button>
+                  <button type="button" className="btn-gold-sm" onClick={() => decideEr(req.id, 'approve')}>Approve</button>
                 </div>
               </section>
             );
           })}
           {!editRequests.length && !isLoading ? (
-            <section className="card"><p style={{ textAlign: 'center', padding: '24px 0', opacity: 0.7 }}>Tidak ada edit request pending.</p></section>
+            <section className="card"><p className="empty-state">Tidak ada edit request pending.</p></section>
           ) : null}
         </>
       ) : null}
@@ -3149,7 +3149,7 @@ const ApprovalPage = () => {
                   </tr>
                 ))}
                 {!history.length ? (
-                  <tr><td colSpan={5} style={{ textAlign: 'center', padding: '24px 0' }}>Belum ada riwayat approval.</td></tr>
+                  <tr><td colSpan={5} className="empty-state">Belum ada riwayat approval.</td></tr>
                 ) : null}
               </tbody>
             </table>
@@ -3442,8 +3442,8 @@ const DelayPage = () => {
         action={
           <div style={{ display: 'flex', gap: 8 }}>
             <button onClick={loadDelays}>Muat Ulang</button>
-            <button onClick={openFleet}>🔴 Input Delay Fleet</button>
-            <button className="primary-link" onClick={openUnit}>🟡 Input Delay Per Unit</button>
+            <button onClick={openFleet}>Input Delay Fleet</button>
+            <button className="primary-link" onClick={openUnit}>Input Delay Per Unit</button>
           </div>
         }
       />
@@ -3494,7 +3494,7 @@ const DelayPage = () => {
               </article>
             );
           })}
-          {!budgetRows.length ? <p style={{ opacity: 0.7 }}>Belum ada data budget/realisasi delay.</p> : null}
+          {!budgetRows.length ? <p className="muted">Belum ada data budget/realisasi delay.</p> : null}
         </div>
       </section>
 
@@ -3547,7 +3547,7 @@ const DelayPage = () => {
               })}
               {!delays.length && !isLoading ? (
                 <tr>
-                  <td colSpan={11} style={{ textAlign: 'center', padding: '24px 0' }}>
+                  <td colSpan={11} className="empty-state">
                     Belum ada delay untuk shift terpilih.
                   </td>
                 </tr>
@@ -3562,7 +3562,7 @@ const DelayPage = () => {
         <div className="modal-overlay" onClick={(event) => { if (event.target === event.currentTarget) setIsFleetOpen(false); }}>
           <div className="modal modal-lg" role="dialog" aria-modal="true" aria-label="Input Delay Fleet">
             <div className="modal-header">
-              <span className="modal-title">🔴 Input Delay Fleet Wide</span>
+              <span className="modal-title">Input Delay Fleet Wide</span>
               <button className="modal-close" type="button" onClick={() => setIsFleetOpen(false)} aria-label="Tutup">✕</button>
             </div>
             <div className="modal-body">
@@ -3589,7 +3589,7 @@ const DelayPage = () => {
                 <label style={{ alignSelf: 'end' }}>
                   <span style={{ display: 'flex', gap: 6, alignItems: 'center', textTransform: 'none' }}>
                     <input type="checkbox" checked={fFullDay} onChange={(event) => handleFullDay(event.target.checked)} />
-                    ☀ Full Day (ikuti jam shift)
+                    Full Day (ikuti jam shift)
                   </span>
                 </label>
               </div>
@@ -3633,7 +3633,7 @@ const DelayPage = () => {
         <div className="modal-overlay" onClick={(event) => { if (event.target === event.currentTarget) setIsUnitOpen(false); }}>
           <div className="modal modal-lg" role="dialog" aria-modal="true" aria-label="Input Delay Per Unit">
             <div className="modal-header">
-              <span className="modal-title">🟡 Input Delay Per Unit</span>
+              <span className="modal-title">Input Delay Per Unit</span>
               <button className="modal-close" type="button" onClick={() => setIsUnitOpen(false)} aria-label="Tutup">✕</button>
             </div>
             <div className="modal-body">
@@ -4039,7 +4039,7 @@ const MaintenancePage = () => {
         <label style={{ alignSelf: 'end' }}>
           <span style={{ display: 'flex', gap: 6, alignItems: 'center', textTransform: 'none' }}>
             <input type="checkbox" checked={form.fullDay} onChange={(event) => applyFullDay(event.target.checked)} />
-            ☀ Full Day (ikuti jam shift)
+            Full Day (ikuti jam shift)
           </span>
         </label>
       </div>
@@ -4100,9 +4100,9 @@ const MaintenancePage = () => {
       </section>
 
       <div className="stat-grid">
-        <article className="stat-card"><span>🔴 Breakdown</span><strong>{kpi.breakdown}</strong></article>
-        <article className="stat-card"><span>🔧 PM Terjadwal</span><strong>{kpi.pm}</strong></article>
-        <article className="stat-card"><span>☀ Full Day</span><strong>{kpi.fullday}</strong></article>
+        <article className="stat-card"><span>Breakdown</span><strong>{kpi.breakdown}</strong></article>
+        <article className="stat-card"><span>PM Terjadwal</span><strong>{kpi.pm}</strong></article>
+        <article className="stat-card"><span>Full Day</span><strong>{kpi.fullday}</strong></article>
         <article className="stat-card"><span>Total Downtime</span><strong>{kpi.totalJam.toFixed(1)} jam</strong><small>{kpi.over} over budget</small></article>
       </div>
 
@@ -4144,7 +4144,7 @@ const MaintenancePage = () => {
                       <div className="rowact">
                         <button type="button" onClick={() => setDetailRecord(record)}>Detail</button>
                         <button type="button" onClick={() => openEdit(record)}>Edit</button>
-                        <button type="button" className="btn-gold-sm" onClick={() => toggleStatus(record)}>✓ Ready</button>
+                        <button type="button" className="btn-gold-sm" onClick={() => toggleStatus(record)}>Ready</button>
                         <button type="button" className="btn-danger-sm" onClick={() => setDeleteRecord(record)}>Hapus</button>
                       </div>
                     </td>
@@ -4153,7 +4153,7 @@ const MaintenancePage = () => {
               })}
               {!downtimeRecords.length && !isLoading ? (
                 <tr>
-                  <td colSpan={11} style={{ textAlign: 'center', padding: '24px 0' }}>
+                  <td colSpan={11} className="empty-state">
                     Tidak ada downtime aktif — semua unit beroperasi normal.
                   </td>
                 </tr>
@@ -4188,7 +4188,7 @@ const MaintenancePage = () => {
                       {closed ? (
                         <span className="unit-status ready">Selesai downtime ({jenisLabel[closed.jenis] ?? closed.jenis}, {closed.durasiJam.toFixed(1)}j)</span>
                       ) : (
-                        <span style={{ color: 'var(--muted)' }}>Beroperasi normal</span>
+                        <span className="muted">Beroperasi normal</span>
                       )}
                     </td>
                     <td>
@@ -4202,7 +4202,7 @@ const MaintenancePage = () => {
               })}
               {!readyUnits.length ? (
                 <tr>
-                  <td colSpan={5} style={{ textAlign: 'center', padding: '24px 0' }}>
+                  <td colSpan={5} className="empty-state">
                     {shiftId ? 'Semua unit sedang ada downtime aktif.' : 'Pilih shift untuk melihat unit ready.'}
                   </td>
                 </tr>
@@ -4345,7 +4345,7 @@ const MaintenancePage = () => {
                       );
                     })}
                     {!historyRecords.length ? (
-                      <tr><td colSpan={10} style={{ textAlign: 'center', padding: '16px 0' }}>{historyLoading ? 'Memuat history...' : 'Belum ada history downtime untuk unit ini.'}</td></tr>
+                      <tr><td colSpan={10} className="empty-state">{historyLoading ? 'Memuat history...' : 'Belum ada history downtime untuk unit ini.'}</td></tr>
                     ) : null}
                   </tbody>
                 </table>
@@ -4605,7 +4605,7 @@ const BbmPage = () => {
       </section>
 
       <div className="stat-grid">
-        <article className="stat-card"><span>Total Liter</span><strong>{formatNumber(totalLiter)} L</strong><small>shift terpilih</small></article>
+        <article className="stat-card"><span>Total Liter</span><strong>{formatNumber(totalLiter)} L</strong></article>
         <article className="stat-card"><span>Jumlah Pengisian</span><strong>{logs.length}</strong></article>
         <article className="stat-card"><span>Unit Terisi</span><strong>{unitCount}</strong></article>
         <article className="stat-card"><span>Rata / Pengisian</span><strong>{formatNumber(Math.round(avgLiter))} L</strong></article>
@@ -4657,7 +4657,7 @@ const BbmPage = () => {
               ))}
               {!logs.length && !isLoading ? (
                 <tr>
-                  <td colSpan={11} style={{ textAlign: 'center', padding: '24px 0' }}>
+                  <td colSpan={11} className="empty-state">
                     Belum ada pengisian BBM untuk shift terpilih.
                   </td>
                 </tr>
@@ -4763,7 +4763,7 @@ const BbmPage = () => {
             </div>
             <div className="modal-footer">
               <button type="button" onClick={() => setIsGridOpen(false)}>Batal</button>
-              <button className="primary-link" type="button" onClick={saveGrid}>💾 Simpan Semua</button>
+              <button className="primary-link" type="button" onClick={saveGrid}>Simpan Semua</button>
             </div>
           </div>
         </div>
@@ -5111,8 +5111,8 @@ const DashboardDailyReport = () => {
                 <tr className="ddr-divider"><td colSpan={rows.length + 3}>Delay per Jenis</td></tr>
               ) : null}
               {!loading && rows.length ? delayTypes.map((_, i) => renderDelay(i)) : null}
-              {loading ? <tr><td colSpan={rows.length + 3} style={{ textAlign: 'center', padding: '18px 0', color: 'var(--muted)' }}>Memuat…</td></tr> : null}
-              {!loading && !rows.length ? <tr><td style={{ textAlign: 'center', padding: '18px 0', color: 'var(--muted)' }}>Tidak ada data.</td></tr> : null}
+              {loading ? <tr><td colSpan={rows.length + 3} className="empty-state">Memuat…</td></tr> : null}
+              {!loading && !rows.length ? <tr><td className="empty-state">Tidak ada data.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -5214,7 +5214,7 @@ const AnalyticPage = () => {
               </tr>
             </thead>
             <tbody>
-              {loading ? <tr><td colSpan={11} style={{ textAlign: 'center', padding: '18px 0', color: 'var(--muted)' }}>Memuat…</td></tr> : null}
+              {loading ? <tr><td colSpan={11} className="empty-state">Memuat…</td></tr> : null}
               {!loading && data?.rows.map((r) => {
                 const ach = achPct(r.produksi.aktualTon, r.produksi.planTon);
                 return (
@@ -5233,7 +5233,7 @@ const AnalyticPage = () => {
                   </tr>
                 );
               })}
-              {!loading && !data?.rows.length ? <tr><td colSpan={11} style={{ textAlign: 'center', padding: '18px 0', color: 'var(--muted)' }}>Tidak ada data.</td></tr> : null}
+              {!loading && !data?.rows.length ? <tr><td colSpan={11} className="empty-state">Tidak ada data.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -5341,26 +5341,18 @@ const ReportsPage = () => {
         <article className="stat-card">
           <span>Ritase ({tanggal})</span>
           <strong>{dailyTotals.rit}</strong>
-          <p>Total rit tercatat harian</p>
-          <small>{daily.length} shift</small>
         </article>
         <article className="stat-card">
           <span>Tonase Harian</span>
           <strong>{formatNumber(Math.round(dailyTotals.tonase))} t</strong>
-          <p>Akumulasi netto tonase</p>
-          <small>{tanggal}</small>
         </article>
         <article className="stat-card">
           <span>Delay Harian</span>
           <strong>{dailyTotals.delay} mnt</strong>
-          <p>Total durasi delay</p>
-          <small>{tanggal}</small>
         </article>
         <article className="stat-card">
           <span>BBM Harian</span>
           <strong>{formatNumber(dailyTotals.bbm)} L</strong>
-          <p>Total konsumsi BBM</p>
-          <small>{tanggal}</small>
         </article>
       </div>
 
@@ -5393,7 +5385,7 @@ const ReportsPage = () => {
                 </div>
               );
             })}
-            {!delaySummary.length ? <p style={{ opacity: 0.7 }}>Belum ada data delay.</p> : null}
+            {!delaySummary.length ? <p className="muted">Belum ada data delay.</p> : null}
           </div>
         </section>
 
@@ -5414,7 +5406,7 @@ const ReportsPage = () => {
                   </tr>
                 ))}
                 {!maintenanceReport.length ? (
-                  <tr><td colSpan={4} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada data.</td></tr>
+                  <tr><td colSpan={4} className="empty-state">Belum ada data.</td></tr>
                 ) : null}
               </tbody>
             </table>
@@ -5444,7 +5436,7 @@ const ReportsPage = () => {
                 </tr>
               ))}
               {!daily.length && !isLoading ? (
-                <tr><td colSpan={7} style={{ textAlign: 'center', padding: '24px 0' }}>Tidak ada shift pada tanggal ini.</td></tr>
+                <tr><td colSpan={7} className="empty-state">Tidak ada shift pada tanggal ini.</td></tr>
               ) : null}
             </tbody>
           </table>
@@ -5467,7 +5459,7 @@ const ReportsPage = () => {
                 </tr>
               ))}
               {!bbmReport.length ? (
-                <tr><td colSpan={3} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada data BBM.</td></tr>
+                <tr><td colSpan={3} className="empty-state">Belum ada data BBM.</td></tr>
               ) : null}
             </tbody>
           </table>
@@ -5665,7 +5657,7 @@ const MasterBranches = () => {
                   <td><RowActions onEdit={() => openEdit(b)} /></td>
                 </tr>
               ))}
-              {!list.length ? <tr><td colSpan={5} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada branch.</td></tr> : null}
+              {!list.length ? <tr><td colSpan={5} className="empty-state">Belum ada branch.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -5817,7 +5809,7 @@ const MasterUnits = () => {
                   <td><RowActions onView={() => setViewUnit(unit)} onEdit={() => openEdit(unit)} onDelete={() => setDelUnit(unit)} /></td>
                 </tr>
               ))}
-              {!list.length ? <tr><td colSpan={8} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada unit.</td></tr> : null}
+              {!list.length ? <tr><td colSpan={8} className="empty-state">Belum ada unit.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -5973,7 +5965,7 @@ const MasterOperators = () => {
                   <td><RowActions onView={() => setViewOp(op)} onEdit={() => openEdit(op)} onDelete={() => setDelOp(op)} /></td>
                 </tr>
               ))}
-              {!list.length ? <tr><td colSpan={8} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada operator.</td></tr> : null}
+              {!list.length ? <tr><td colSpan={8} className="empty-state">Belum ada operator.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -6137,7 +6129,7 @@ const MasterUsers = () => {
                   </td>
                 </tr>
               ))}
-              {!list.length ? <tr><td colSpan={7} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada user.</td></tr> : null}
+              {!list.length ? <tr><td colSpan={7} className="empty-state">Belum ada user.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -6241,13 +6233,13 @@ const MasterModulePermissions = () => {
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                         {p.rolesAllowed.map((r) => <span className="status-badge open" key={r}>{roleLabel(r)}</span>)}
                       </div>
-                    ) : <span style={{ color: 'var(--muted)' }}>Semua role (baca-saja)</span>}
+                    ) : <span className="muted">Semua role (baca-saja)</span>}
                   </td>
-                  <td style={{ color: 'var(--muted)' }}>{p.deskripsi ?? '-'}</td>
+                  <td className="muted">{p.deskripsi ?? '-'}</td>
                   <td><RowActions onEdit={() => openEdit(p)} /></td>
                 </tr>
               ))}
-              {!list.length ? <tr><td colSpan={4} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada data permission.</td></tr> : null}
+              {!list.length ? <tr><td colSpan={4} className="empty-state">Belum ada data permission.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -6324,7 +6316,7 @@ const MasterTipeUnit = () => {
                 <tr key={t.id}><td>{t.kode}</td><td><strong>{t.nama}</strong></td><td>{t.kapasitasTon}</td><td>{t.aktif ? 'Ya' : 'Tidak'}</td>
                   <td><RowActions onView={() => setViewItem(t)} onEdit={() => openEdit(t)} onDelete={() => setDelItem(t)} /></td></tr>
               ))}
-              {!list.length ? <tr><td colSpan={5} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada tipe unit.</td></tr> : null}
+              {!list.length ? <tr><td colSpan={5} className="empty-state">Belum ada tipe unit.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -6463,7 +6455,7 @@ const MasterDelayTypes = () => {
                   <td><RowActions onView={() => setViewItem(d)} onEdit={() => openEdit(d)} /></td>
                 </tr>
               ))}
-              {!list.length ? <tr><td colSpan={8} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada jenis delay.</td></tr> : null}
+              {!list.length ? <tr><td colSpan={8} className="empty-state">Belum ada jenis delay.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -6545,7 +6537,7 @@ const MasterFuelStations = () => {
                   <td>{fs.aktif ? 'Ya' : 'Tidak'}</td>
                 </tr>
               ))}
-              {!list.length ? <tr><td colSpan={4} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada fuel station.</td></tr> : null}
+              {!list.length ? <tr><td colSpan={4} className="empty-state">Belum ada fuel station.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -6604,7 +6596,7 @@ const MasterMaterials = () => {
               {list.map((m) => (
                 <tr key={m.id}><td><strong>{m.nama}</strong></td><td>{m.kode}</td><td>{m.kategori ?? '-'}</td><td>{m.satuan ?? '-'}</td><td>{m.aktif ? 'Ya' : 'Tidak'}</td></tr>
               ))}
-              {!list.length ? <tr><td colSpan={5} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada material.</td></tr> : null}
+              {!list.length ? <tr><td colSpan={5} className="empty-state">Belum ada material.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -6659,7 +6651,7 @@ const MasterFuelTypes = () => {
               {list.map((f) => (
                 <tr key={f.id}><td><strong>{f.nama}</strong></td><td>{f.kode ?? '-'}</td><td>{f.aktif ? 'Ya' : 'Tidak'}</td></tr>
               ))}
-              {!list.length ? <tr><td colSpan={3} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada fuel type.</td></tr> : null}
+              {!list.length ? <tr><td colSpan={3} className="empty-state">Belum ada fuel type.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -6718,7 +6710,7 @@ const MasterShiftTypes = () => {
               {list.map((s) => (
                 <tr key={s.id}><td>{s.kode}</td><td><strong>{s.nama}</strong></td><td>{s.jamMulai}</td><td>{s.jamSelesai}</td><td>{s.aktif ? 'Ya' : 'Tidak'}</td></tr>
               ))}
-              {!list.length ? <tr><td colSpan={5} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada tipe shift.</td></tr> : null}
+              {!list.length ? <tr><td colSpan={5} className="empty-state">Belum ada tipe shift.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -6787,7 +6779,7 @@ const MasterOperatorStatusTypes = () => {
                   <td><RowActions onEdit={() => openEdit(s)} /></td>
                 </tr>
               ))}
-              {!list.length ? <tr><td colSpan={6} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada status operator.</td></tr> : null}
+              {!list.length ? <tr><td colSpan={6} className="empty-state">Belum ada status operator.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -6930,7 +6922,7 @@ const MasterPitStockpile = () => {
                   <td><RowActions onEdit={() => openPitEdit(p)} onDelete={() => setDelPit(p)} /></td>
                 </tr>
               ))}
-              {!pits.length ? <tr><td colSpan={6} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada pit.</td></tr> : null}
+              {!pits.length ? <tr><td colSpan={6} className="empty-state">Belum ada pit.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -6960,7 +6952,7 @@ const MasterPitStockpile = () => {
                   <td><RowActions onEdit={() => openSpEdit(s)} onDelete={() => setDelSp(s)} /></td>
                 </tr>
               ))}
-              {!stockpiles.length ? <tr><td colSpan={6} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada stockpile.</td></tr> : null}
+              {!stockpiles.length ? <tr><td colSpan={6} className="empty-state">Belum ada stockpile.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -6969,7 +6961,7 @@ const MasterPitStockpile = () => {
       <section className="card">
         <CardHeader title="Matriks Jarak Pit → Stockpile (km)" meta={`${pits.length} × ${stockpiles.length}`} />
         {!pits.length || !stockpiles.length ? (
-          <p style={{ color: 'var(--muted)' }}>Tambahkan minimal 1 pit dan 1 stockpile untuk mengisi matriks jarak.</p>
+          <p className="muted">Tambahkan minimal 1 pit dan 1 stockpile untuk mengisi matriks jarak.</p>
         ) : (
           <>
             <div className="table-wrap">
@@ -7131,7 +7123,7 @@ const MasterRates = () => {
                   <td><RowActions onEdit={() => openEdit(r)} onDelete={() => setDelRate(r)} /></td>
                 </tr>
               ))}
-              {!list.length ? <tr><td colSpan={9} style={{ textAlign: 'center', padding: '16px 0' }}>Belum ada hauling rate.</td></tr> : null}
+              {!list.length ? <tr><td colSpan={9} className="empty-state">Belum ada hauling rate.</td></tr> : null}
             </tbody>
           </table>
         </div>
@@ -7284,7 +7276,7 @@ const MasterBasisTargetProduksi = () => {
                 <td><RowActions onEdit={() => openEdit(r)} onDelete={() => setDelRec(r)} /></td>
               </tr>
             ))}
-            {!list.length ? <tr><td colSpan={9} style={{ textAlign: 'center', padding: '18px 0', color: 'var(--muted)' }}>Belum ada input dasar untuk branch ini.</td></tr> : null}
+            {!list.length ? <tr><td colSpan={9} className="empty-state">Belum ada input dasar untuk branch ini.</td></tr> : null}
           </tbody>
         </table>
       </div>
@@ -7379,14 +7371,14 @@ const BudgetTargetCard = ({ title, endpoint, rows, fields, bulan, tahun, reloadT
               const r = rowOf(rec);
               return (
                 <tr key={rec.id}>
-                  <td><strong>{r?.label ?? '-'}</strong>{r?.sublabel ? <span style={{ color: 'var(--muted)' }}> · {r.sublabel}</span> : null}</td>
+                  <td><strong>{r?.label ?? '-'}</strong>{r?.sublabel ? <span className="muted"> · {r.sublabel}</span> : null}</td>
                   {fields.map((f) => <td key={f.name}>{rec[f.name] != null ? formatNumber(Number(rec[f.name])) : '—'}</td>)}
                   <td><RowActions onEdit={() => openEdit(rec)} onDelete={() => setDelRec({ id: rec.id, label: r?.label ?? '' })} /></td>
                 </tr>
               );
             })}
             {!records.length ? (
-              <tr><td colSpan={fields.length + 2} style={{ textAlign: 'center', padding: '18px 0', color: 'var(--muted)' }}>
+              <tr><td colSpan={fields.length + 2} className="empty-state">
                 Belum ada data untuk periode {bulan}/{tahun}. Klik “+ Tambah”.
               </td></tr>
             ) : null}
@@ -7682,7 +7674,7 @@ const SettingsPage = () => {
             <div className="avatar" style={{ width: 96, height: 96 }}>
               <Avatar seed={avatarSeed} size={96} />
             </div>
-            <span style={{ color: 'var(--muted)', fontSize: 12 }}>Pratinjau</span>
+            <span className="muted">Pratinjau</span>
           </div>
           <div style={{ flex: '1 1 320px', display: 'flex', flexDirection: 'column', gap: 14 }}>
             {avatarMessage ? <div className="inline-alert">{avatarMessage}</div> : null}
@@ -7691,7 +7683,7 @@ const SettingsPage = () => {
                 <span style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.05em', color: 'var(--muted)' }}>
                   Pilih dari opsi acak
                 </span>
-                <button type="button" className="btn-ghost-sm" onClick={shuffleAvatarSuggestions}>🔀 Acak Ulang</button>
+                <button type="button" className="btn-ghost-sm" onClick={shuffleAvatarSuggestions}>Acak Ulang</button>
               </div>
               <div className="avatar-picker">
                 {avatarSuggestions.map((s) => (
