@@ -2889,3 +2889,45 @@ tbody tr:hover {
 .toolbar-panel .toolbar-action {
   margin-left: auto;
 }
+
+/* Tile KPI ringkas: label, angka, lalu satu baris target/status. */
+.stat-grid {
+  gap: 12px;
+}
+
+.stat-card {
+  gap: 2px;
+  margin-bottom: 0;
+  padding: 12px 14px;
+  border-radius: var(--r-ctl);
+}
+
+.stat-card strong {
+  font-size: var(--font-size-xl);
+  line-height: 1.3;
+}
+
+.kpi-target-tile__foot {
+  margin-top: 2px;
+  gap: 6px;
+}
+
+.kpi-target-tile__foot .status-badge {
+  padding: 0 7px;
+  font-size: var(--font-size-xs);
+}
+
+.toolbar-panel button.toolbar-action {
+  margin-left: auto;
+}
+
+.section-label {
+  margin: 16px 0 8px;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--muted);
+}
+
+.stat-grid {
+  margin-bottom: 12px;
+}

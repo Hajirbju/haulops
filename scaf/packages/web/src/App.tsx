@@ -977,15 +977,17 @@ const KpiTargetTile = ({ label, actual, target, unit, format = 'number', status,
     <article className={`stat-card kpi-target-tile kpi-target-tile--${status}`}>
       <span>{label}</span>
       <strong>{fmt(actual)}{unit && format !== 'currency' ? ` ${unit}` : ''}</strong>
-      <p>{target != null ? `Target: ${fmt(target)}${unit && format !== 'currency' ? ` ${unit}` : ''}` : '-'}</p>
-      <div className="kpi-target-tile__foot">
-        {delta != null ? (
-          <span className={`status-badge ${status}`}>
-            {delta >= 0 ? '+' : ''}{fmt(delta)}{pct != null ? ` (${pct.toFixed(0)}%)` : ''}
-          </span>
-        ) : null}
-        {sub ? <small>{sub}</small> : null}
-      </div>
+      {target != null || sub ? (
+        <div className="kpi-target-tile__foot">
+          {target != null ? <small>Target {fmt(target)}{unit && format !== 'currency' ? ` ${unit}` : ''}</small> : null}
+          {delta != null ? (
+            <span className={`status-badge ${status}`}>
+              {delta >= 0 ? '+' : ''}{fmt(delta)}{pct != null ? ` (${pct.toFixed(0)}%)` : ''}
+            </span>
+          ) : null}
+          {sub ? <small>{sub}</small> : null}
+        </div>
+      ) : null}
     </article>
   );
 };
@@ -5294,11 +5296,6 @@ const ReportsPage = () => {
 
   return (
     <>
-      <PageHeader
-        title="Laporan Operasional"
-        description="Rekap harian dan bulanan produksi, delay, maintenance, dan BBM. Export CSV untuk analisis lanjutan."
-        action={<button className="primary-link" onClick={loadReports}>Muat Ulang</button>}
-      />
       {message ? <div className="inline-alert">{message}</div> : null}
 
       <section className="toolbar-panel">
@@ -5314,6 +5311,7 @@ const ReportsPage = () => {
           <button className="primary-link" type="button" onClick={exportDaily}>Export Harian CSV</button>
           <button type="button" onClick={exportMonthly}>Export Bulanan CSV</button>
         </div>
+        <button type="button" className="toolbar-action" onClick={loadReports}>Muat Ulang</button>
       </section>
 
       <div className="stat-grid">
@@ -5336,9 +5334,9 @@ const ReportsPage = () => {
       </div>
 
       {monthly ? (
-        <section className="card">
-          <CardHeader title={`Rekap Bulanan ${monthly.bulan}`} meta={`${monthly.shifts} shift`} />
-          <div className="stat-grid" style={{ marginTop: 12 }}>
+        <section>
+          <h3 className="section-label">{`Rekap Bulanan ${monthly.bulan}`}</h3>
+          <div className="stat-grid">
             <article className="stat-card"><span>Total Rit</span><strong>{monthly.totalRit}</strong></article>
             <article className="stat-card"><span>Total Tonase</span><strong>{formatNumber(Math.round(monthly.totalTonase))} t</strong></article>
             <article className="stat-card"><span>Total Delay</span><strong>{monthly.delayMinutes} mnt</strong></article>
