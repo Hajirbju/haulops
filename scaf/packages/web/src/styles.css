@@ -441,85 +441,74 @@ button {
   min-height: 100vh;
 }
 
+/* Sidebar: panel gelap mengambang, sudut membulat, item nav berbentuk kapsul. */
 .sidebar {
   position: fixed;
-  inset: 0 auto 0 0;
+  inset: 12px auto 12px 12px;
   display: flex;
   flex-direction: column;
-  width: 260px;
+  width: 248px;
+  border-radius: 24px;
   background: var(--brown-deep);
   color: var(--on-dark);
+  overflow: hidden;
 }
 
 .sidebar-logo {
-  padding: 22px 18px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px 20px 8px;
 }
 
 .branch-card {
-  display: grid;
-  gap: 2px;
-  margin: 14px 16px;
-  border: 1px solid rgba(232, 200, 74, 0.22);
-  border-radius: 8px;
-  padding: 12px;
-  background: rgba(232, 200, 74, 0.1);
-}
-
-.branch-card span {
-  color: rgba(255, 255, 255, 0.56);
-  font-size: 11px;
-  text-transform: uppercase;
+  margin: 8px 12px 4px;
+  border-radius: 14px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.07);
+  font-size: var(--font-size-base);
 }
 
 .sidebar nav {
   flex: 1;
   overflow: auto;
-  padding-bottom: 12px;
+  padding: 4px 12px 12px;
+  scrollbar-width: none;
+}
+
+.sidebar nav::-webkit-scrollbar {
+  display: none;
 }
 
 .nav-group p {
-  margin: 18px 20px 6px;
-  color: rgba(255, 255, 255, 0.38);
-  font-size: 10px;
+  margin: 16px 12px 6px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: var(--font-size-xs);
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .nav-group a {
-  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 20px;
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: 14px;
   color: rgba(255, 255, 255, 0.72);
   text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.nav-group a:hover,
 .nav-group a.active {
-  background: rgba(232, 200, 74, 0.12);
-  color: var(--gold);
-}
-
-.nav-group a.active::before {
-  position: absolute;
-  left: 0;
-  width: 3px;
-  height: 24px;
-  border-radius: 0 3px 3px 0;
   background: var(--gold);
-  content: "";
+  color: var(--on-accent);
+  font-weight: 600;
 }
 
 .nav-icon {
   display: grid;
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   place-items: center;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.08);
   color: currentColor;
 }
 
@@ -537,18 +526,26 @@ button {
   font-weight: 600;
 }
 
+.sidebar-footer {
+  display: grid;
+  gap: 10px;
+  margin: 0 12px 12px;
+  border-radius: 18px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
 .sidebar-user {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 0;
 }
 
 .avatar {
   display: grid;
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   place-items: center;
   border-radius: 50%;
   overflow: hidden;
@@ -608,24 +605,24 @@ button {
 .sidebar-actions {
   display: flex;
   gap: 8px;
-  padding: 0 16px 16px;
 }
 
 .sidebar-icon-btn {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.06);
+  flex: 1;
+  height: 36px;
+  padding: 0;
+  border-radius: 12px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.72);
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .sidebar-icon-btn:hover {
-  background: rgba(232, 200, 74, 0.12);
-  border-color: rgba(232, 200, 74, 0.32);
-  color: var(--gold);
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--on-dark);
 }
 
 /* Indikator status API — bukan tombol (cursor default), warna beda per status
@@ -655,7 +652,7 @@ button {
   flex: 1;
   flex-direction: column;
   min-width: 0;
-  margin-left: 260px;
+  margin-left: 272px;
 }
 
 .topbar {
@@ -663,12 +660,13 @@ button {
   top: 0;
   z-index: 5;
   display: flex;
-  min-height: 68px;
+  min-height: 64px;
   align-items: center;
-  justify-content: space-between;
   gap: 16px;
-  border-bottom: 1px solid var(--line);
-  padding: 14px 28px;
+  margin: 12px 28px 0;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 12px 24px;
   background: var(--card);
 }
 
@@ -720,27 +718,10 @@ button {
 
 .page-header {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: flex-end;
   gap: 20px;
-  margin-bottom: 22px;
-}
-
-.page-header h2 {
-  margin: 0 0 4px;
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-tight);
-  letter-spacing: -0.01em;
-  text-wrap: balance;
-}
-
-.page-header p {
-  max-width: 760px;
-  margin: 0;
-  color: var(--muted);
-  font-size: var(--font-size-md);
-  line-height: var(--line-height-relaxed);
+  margin-bottom: 16px;
 }
 
 .stat-grid {
@@ -1159,7 +1140,7 @@ tbody tr:hover {
   }
 
   .main-wrapper {
-    margin-left: 220px;
+    margin-left: 244px;
   }
 
   .stat-grid,
@@ -1171,7 +1152,8 @@ tbody tr:hover {
 @media (max-width: 720px) {
   .sidebar {
     position: static;
-    width: 100%;
+    width: auto;
+    margin: 12px;
     min-height: auto;
   }
 
@@ -1181,6 +1163,10 @@ tbody tr:hover {
 
   .main-wrapper {
     margin-left: 0;
+  }
+
+  .topbar {
+    margin: 12px 12px 0;
   }
 
   .topbar,
@@ -1898,16 +1884,12 @@ html {
 }
 
 
-/* Nav item hover effects */
+/* Nav item hover */
 .nav-group a:not(.active):hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--on-dark);
 }
 
-/* Sidebar user hover */
-.sidebar-user:hover {
-  background: rgba(255, 255, 255, 0.04);
-}
 
 /* Active shift card hover */
 .active-shift:hover {
@@ -1919,9 +1901,6 @@ html {
   transition: all 0.3s ease;
 }
 
-.stat-card:hover strong {
-  color: var(--amber);
-}
 
 /* Demo list button hover */
 .demo-list button:hover {
@@ -1934,28 +1913,13 @@ html {
   transition: all 0.3s ease;
 }
 
-.health-pill:hover {
-  transform: scale(1.05);
-}
 
 /* Avatar hover */
 .avatar {
   transition: all 0.2s ease;
 }
 
-.avatar:hover {
-  transform: scale(1.1);
-}
 
-/* Branch card hover */
-.branch-card {
-  transition: all 0.3s ease;
-}
-
-.branch-card:hover {
-  border-color: rgba(232, 200, 74, 0.4);
-  background: rgba(232, 200, 74, 0.15);
-}
 
 /* Bar chart animation */
 .bar-chart span {

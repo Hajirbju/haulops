@@ -700,23 +700,9 @@ const LoginPage = ({ onLogin }: { onLogin: (user: SessionUser) => void }) => {
           <span>H</span>
           <div>
             <strong>HAULOPS</strong>
-            <small>Mining Operations</small>
           </div>
         </div>
-        <div>
-          <p className="eyebrow">Smart Mining Transaction System</p>
-          <h1>Operasi hauling, shift, dan approval dalam satu cockpit.</h1>
-          <p className="hero-copy">
-            MVP awal ini menyiapkan fondasi UI, route modul utama, mock auth, dan koneksi API health check
-            untuk mulai membangun workflow operasional sesuai PRD.
-          </p>
-        </div>
-        <div className="feature-row">
-          <span>Real-time dashboard</span>
-          <span>Multi branch</span>
-          <span>Approval workflow</span>
-          <span>Audit-ready data</span>
-        </div>
+        <h1>Operasi hauling, shift, dan approval dalam satu sistem.</h1>
       </section>
 
       <section className="login-panel">
@@ -823,13 +809,9 @@ const Shell = ({ user, onLogout }: { user: SessionUser; onLogout: () => void }) 
       <aside className="sidebar">
         <div className="sidebar-logo">
           <div className="logo-box">H</div>
-          <div>
-            <strong>HAULOPS</strong>
-            <span>v2.0 MVP</span>
-          </div>
+          <strong>HAULOPS</strong>
         </div>
-        <div className="branch-card">
-          <span>Branch aktif</span>
+        <div className="branch-card" title="Branch aktif">
           <strong>{branchName}</strong>
         </div>
         <nav>
@@ -846,8 +828,9 @@ const Shell = ({ user, onLogout }: { user: SessionUser; onLogout: () => void }) 
             </div>
           ))}
         </nav>
+        <div className="sidebar-footer">
         <div className="sidebar-user">
-          <div className="avatar"><Avatar seed={avatarSeed} size={38} /></div>
+          <div className="avatar"><Avatar seed={avatarSeed} size={36} /></div>
           <div>
             <strong>{user.nama ?? user.username ?? '-'}</strong>
             <span>{user.role}</span>
@@ -882,14 +865,12 @@ const Shell = ({ user, onLogout }: { user: SessionUser; onLogout: () => void }) 
             </svg>
           </button>
         </div>
+        </div>
       </aside>
 
       <section className="main-wrapper">
         <header className="topbar">
-          <div>
-            <h1>{routeLabels[route]}</h1>
-            <p>Shift Pagi - 07 Juni 2026 - {branchName}</p>
-          </div>
+          <h1>{routeLabels[route]}</h1>
         </header>
         <main className="page-content">
           <Page route={route} health={health} />
@@ -979,7 +960,7 @@ const KpiTargetTile = ({ label, actual, target, unit, format = 'number', status,
     <article className={`stat-card kpi-target-tile kpi-target-tile--${status}`}>
       <span>{label}</span>
       <strong>{fmt(actual)}{unit && format !== 'currency' ? ` ${unit}` : ''}</strong>
-      <p>{target != null ? `Target: ${fmt(target)}${unit && format !== 'currency' ? ` ${unit}` : ''}` : 'Target belum diatur'}</p>
+      <p>{target != null ? `Target: ${fmt(target)}${unit && format !== 'currency' ? ` ${unit}` : ''}` : '-'}</p>
       <div className="kpi-target-tile__foot">
         {delta != null ? (
           <span className={`status-badge ${status}`}>
@@ -1143,10 +1124,10 @@ const Dashboard = ({ health }: { health: HealthState }) => {
       ) : daily ? (
         <>
           <div className="stat-grid">
-            <KpiTargetTile label="Physical Availability" actual={daily.pa.mtd.pct} target={daily.pa.mtd.targetPct ?? null} format="percent" status={daily.pa.status} sub={`Hari ini: ${daily.pa.daily.pct.toFixed(1)}%`} />
-            <KpiTargetTile label="Utilization Availability" actual={daily.ua.mtd.pct} target={daily.ua.mtd.targetPct ?? null} format="percent" status={daily.ua.status} sub={`Hari ini: ${daily.ua.daily.pct.toFixed(1)}%`} />
-            <KpiTargetTile label="Breakdown (jam)" actual={daily.breakdown.mtd.hours} target={daily.breakdown.budgetJamPerHariTotalMtd} status={daily.breakdown.status} sub={`Hari ini: ${daily.breakdown.daily.count} unit / ${daily.breakdown.daily.hours} jam`} />
-            <KpiTargetTile label="Revenue" actual={daily.revenue.mtd.actualRp} target={daily.revenue.mtd.targetRp || null} format="currency" status={daily.revenue.status} sub={daily.revenue.mtd.unpricedRitCount ? `${daily.revenue.mtd.unpricedRitCount} rit belum ada rate` : 'Semua rit ter-harga'} />
+            <KpiTargetTile label="Physical Availability" actual={daily.pa.mtd.pct} target={daily.pa.mtd.targetPct ?? null} format="percent" status={daily.pa.status} />
+            <KpiTargetTile label="Utilization Availability" actual={daily.ua.mtd.pct} target={daily.ua.mtd.targetPct ?? null} format="percent" status={daily.ua.status} />
+            <KpiTargetTile label="Breakdown (jam)" actual={daily.breakdown.mtd.hours} target={daily.breakdown.budgetJamPerHariTotalMtd} status={daily.breakdown.status} />
+            <KpiTargetTile label="Revenue" actual={daily.revenue.mtd.actualRp} target={daily.revenue.mtd.targetRp || null} format="currency" status={daily.revenue.status} sub={daily.revenue.mtd.unpricedRitCount ? `${daily.revenue.mtd.unpricedRitCount} rit belum ada rate` : undefined} />
           </div>
 
           <div className="content-grid">
@@ -1601,9 +1582,6 @@ const ShiftPage = () => {
                   <button type="button" className="btn-gold-sm" onClick={generateAllUnits}>⚡ Generate Semua Unit Aktif</button>
                 </div>
               </div>
-              <div className="modal-note">
-                Unit yang di-assign akan tersedia sebagai pilihan saat input Rit Operation, Delay, BBM, dan Maintenance.
-              </div>
               <div className="modal-unit-list">
                 <table>
                   <thead>
@@ -1689,9 +1667,6 @@ const ShiftPage = () => {
               <button className="modal-close" type="button" onClick={() => setIsGenerateOpen(false)} aria-label="Tutup">✕</button>
             </div>
             <div className="modal-body">
-              <div className="modal-note">
-                📅 Salin data unit, operator, dan material dari shift tanggal lain sebagai titik awal.
-              </div>
               <div className="modal-form-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
                 <label>
                   Tanggal Sumber <span className="req">*</span>
@@ -2615,9 +2590,6 @@ const RitPage = () => {
                   <button type="button" className="btn-ghost-sm" onClick={duplicateLastRow}>📋 Duplikat</button>
                   <button type="button" className="btn-gold-sm" onClick={addGridRow}>+ Baris Baru</button>
                 </div>
-              </div>
-              <div className="modal-note">
-                Baris otomatis dimuat dari unit yang di-assign pada shift ini (hari &amp; shift sama). Ton/Rit = (Gross − Tare) / 1000, atau estimasi kapasitas unit bila tanpa timbangan.
               </div>
               <div className="modal-unit-list">
                 <table>
@@ -4232,7 +4204,6 @@ const MaintenancePage = () => {
               <button className="modal-close" type="button" onClick={() => setIsInputOpen(false)} aria-label="Tutup">✕</button>
             </div>
             <div className="modal-body">
-              <div className="modal-note">Input 1 hari 1 kali per unit. Untuk breakdown seharian, centang "Full Day" untuk auto-isi jam shift.</div>
               {renderFormBody(formDurasiJam)}
             </div>
             <div className="modal-footer">
@@ -4318,7 +4289,6 @@ const MaintenancePage = () => {
               <button className="modal-close" type="button" onClick={() => setHistoryUnit(null)} aria-label="Tutup">✕</button>
             </div>
             <div className="modal-body">
-              <div className="modal-note">Riwayat seluruh downtime/maintenance unit ini lintas shift.</div>
               <div className="modal-unit-list">
                 <table>
                   <thead>
@@ -4698,7 +4668,6 @@ const BbmPage = () => {
                   <button type="button" className="btn-gold-sm" onClick={addGridRow}>+ Baris Baru</button>
                 </div>
               </div>
-              <div className="modal-note">Baris otomatis dari unit ter-assign shift ini. Petugas BBM = akun Anda ({session?.nama ?? session?.username ?? '-'}).</div>
               <div className="modal-unit-list">
                 <table>
                   <thead>
@@ -7804,20 +7773,18 @@ const ModulePlaceholder = ({ route }: { route: RouteKey }) => {
   );
 };
 
-const PageHeader = ({ title, description, action }: { title: string; description: string; action?: JSX.Element }) => (
-  <div className="page-header">
-    <div>
-      <h2>{title}</h2>
-      <p>{description}</p>
+// Judul halaman sudah tampil di topbar; `description` dipertahankan di call site
+// tetapi tidak dirender (sub-informasi dihapus dari UI).
+const PageHeader = ({ action }: { title: string; description?: string; action?: JSX.Element }) =>
+  action ? (
+    <div className="page-header">
+      <div>{action}</div>
     </div>
-    {action ? <div>{action}</div> : null}
-  </div>
-);
+  ) : null;
 
-const CardHeader = ({ title, meta }: { title: string; meta: string }) => (
+const CardHeader = ({ title }: { title: string; meta?: string }) => (
   <div className="card-header">
     <strong>{title}</strong>
-    <span>{meta}</span>
   </div>
 );
 
