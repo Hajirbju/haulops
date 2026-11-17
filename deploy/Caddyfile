@@ -1,0 +1,5 @@
+# Caddy: terminasi HTTPS (sertifikat Let's Encrypt otomatis) lalu teruskan ke nginx.
+{$DOMAIN} {
+	encode gzip
+	reverse_proxy web:80
+}
