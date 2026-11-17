@@ -217,26 +217,6 @@ button {
   font-weight: 600;
 }
 
-.login-page {
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) 480px;
-  min-height: 100vh;
-}
-
-.login-hero {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 48px;
-  padding: 56px;
-  background:
-    linear-gradient(rgba(62, 45, 30, 0.76), rgba(62, 45, 30, 0.9)),
-    url("../../../assets/haulops.png");
-  background-size: cover;
-  background-position: center;
-  color: white;
-}
-
 .brand-mark,
 .sidebar-logo {
   display: flex;
@@ -267,104 +247,6 @@ button {
   display: block;
   color: rgba(255, 255, 255, 0.68);
   font-size: 12px;
-}
-
-.eyebrow {
-  margin: 0 0 12px;
-  color: var(--gold);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 12px;
-}
-
-.login-hero h1 {
-  max-width: 720px;
-  margin: 0;
-  font-size: 52px;
-  line-height: 1.04;
-}
-
-.hero-copy {
-  max-width: 640px;
-  margin: 18px 0 0;
-  color: rgba(255, 255, 255, 0.76);
-  font-size: 16px;
-}
-
-.feature-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.feature-row span {
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 999px;
-  padding: 8px 12px;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 12px;
-}
-
-.login-panel {
-  display: grid;
-  place-items: center;
-  padding: 48px;
-  background: var(--cream);
-}
-
-.login-box {
-  width: min(100%, 380px);
-}
-
-.login-box h2 {
-  margin: 0 0 4px;
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-tight);
-}
-
-.login-box p {
-  margin: 0 0 28px;
-  color: var(--muted);
-  font-size: var(--font-size-md);
-  line-height: var(--line-height-relaxed);
-}
-
-.login-box label {
-  display: grid;
-  gap: 4px;
-  margin-bottom: 14px;
-  color: var(--muted);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-semibold);
-}
-
-.login-box input {
-  width: 100%;
-  border: 1.5px solid var(--input-border);
-  border-radius: 8px;
-  padding: 12px 14px;
-  color: var(--text);
-  background: var(--input-bg);
-  font-size: 14px;
-  transition: all 0.2s ease-in-out;
-}
-
-.login-box input:focus {
-  outline: none;
-  border-color: var(--amber);
-  background: var(--card);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--amber) 22%, transparent);
-}
-
-.login-box input:hover:not(:focus) {
-  border-color: var(--amber);
-}
-
-.login-box input::placeholder {
-  color: var(--muted);
-  opacity: 0.6;
 }
 
 .form-error {
@@ -411,29 +293,6 @@ button {
   width: auto;
   align-items: center;
   justify-content: center;
-}
-
-.demo-list {
-  display: grid;
-  gap: 8px;
-  margin-top: 20px;
-}
-
-.demo-list button {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 10px 12px;
-  background: var(--card);
-  color: var(--text);
-  text-align: left;
-}
-
-.demo-list span {
-  color: var(--muted);
-  font-size: 12px;
 }
 
 .app-shell {
@@ -688,7 +547,6 @@ button {
   font-size: var(--font-size-base);
   line-height: var(--line-height-normal);
 }
-
 
 .health-pill {
   border-radius: 999px;
@@ -1125,18 +983,6 @@ tbody tr:hover {
 }
 
 @media (max-width: 980px) {
-  .login-page {
-    grid-template-columns: 1fr;
-  }
-
-  .login-hero {
-    min-height: 440px;
-  }
-
-  .login-panel {
-    place-items: start center;
-  }
-
   .sidebar {
     width: 220px;
   }
@@ -1182,16 +1028,10 @@ tbody tr:hover {
   .content-grid {
     grid-template-columns: 1fr;
   }
-
-  .login-hero,
-  .login-panel,
-  .page-content {
+.page-content {
     padding: 24px;
   }
 
-  .login-hero h1 {
-    font-size: 38px;
-  }
 }
 
 /* ---- Modal ---- */
@@ -1885,13 +1725,11 @@ html {
   animation: slideUp 0.3s ease-out;
 }
 
-
 /* Nav item hover */
 .nav-group a:not(.active):hover {
   background: rgba(255, 255, 255, 0.08);
   color: var(--on-dark);
 }
-
 
 /* Active shift card hover */
 .active-shift:hover {
@@ -1903,25 +1741,15 @@ html {
   transition: all 0.3s ease;
 }
 
-
-/* Demo list button hover */
-.demo-list button:hover {
-  background: var(--surface-2);
-  border-color: var(--amber);
-}
-
 /* Health pill animation */
 .health-pill {
   transition: all 0.3s ease;
 }
 
-
 /* Avatar hover */
 .avatar {
   transition: all 0.2s ease;
 }
-
-
 
 /* Bar chart animation */
 .bar-chart span {
@@ -2376,7 +2204,6 @@ table thead th {
   margin-bottom: 14px;
 }
 
-
 /* ---- Topbar toggle & sidebar ciut (rail ikon) ---- */
 .nav-group a:focus-visible,
 .sidebar-icon-btn:focus-visible {
@@ -2454,7 +2281,6 @@ table thead th {
     margin-left: 0;
   }
 }
-
 
 /* =====================================================================
    STANDAR MINIMALIS (override akhir) — berlaku di semua modul.
@@ -2923,9 +2749,6 @@ tbody tr:hover {
 
 /* Form input cepat: satu kontainer tipis, satu baris. */
 
-
-
-
 /* Tombol utama di footer modal harus tetap emas (menang atas .modal-footer button). */
 .modal-footer .primary-link {
   background: var(--gold);
@@ -2986,13 +2809,6 @@ button.sidebar-logo:focus-visible {
   display: block;
 }
 
-.login-logo {
-  display: block;
-  width: 220px;
-  max-width: 100%;
-  height: auto;
-}
-
 /* Logo sidebar rata tengah. */
 .sidebar-logo {
   justify-content: center;
@@ -3000,4 +2816,188 @@ button.sidebar-logo:focus-visible {
 
 .sidebar-logo .logo-full {
   margin: 0 auto;
+}
+
+
+/* =====================================================================
+   Halaman login: kartu tengah, ilustrasi kiri, form kanan.
+   ===================================================================== */
+.auth-page {
+  display: grid;
+  min-height: 100vh;
+  place-content: center;
+  justify-items: center;
+  gap: 20px;
+  padding: 24px 16px;
+  background: var(--cream-deep);
+}
+
+.auth-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  width: min(1000px, 100%);
+  border-radius: 32px;
+  padding: 24px;
+  background: var(--card);
+  box-shadow: var(--sh-md);
+}
+
+.auth-art {
+  position: relative;
+  min-height: 460px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #f6efe2;
+}
+
+.auth-art svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  width: min(380px, 100%);
+  margin: 0 auto;
+  padding: 16px 0;
+}
+
+.auth-logo {
+  display: block;
+  width: 190px;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 8px;
+}
+
+.auth-head {
+  text-align: center;
+}
+
+.auth-head h1 {
+  margin: 0 0 4px;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+}
+
+.auth-head p {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--font-size-md);
+}
+
+.auth-field {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.auth-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.auth-input > svg {
+  position: absolute;
+  left: 14px;
+  width: 18px;
+  height: 18px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.auth-input input {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  padding: 0 44px;
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: var(--font-size-md);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.auth-input input:focus {
+  outline: none;
+  border-color: var(--amber);
+  background: var(--card);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--amber) 20%, transparent);
+}
+
+.auth-eye {
+  position: absolute;
+  right: 6px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  min-height: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.auth-eye svg {
+  width: 18px;
+  height: 18px;
+}
+
+.auth-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 46px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--gold);
+  color: var(--on-accent);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+}
+
+.auth-submit:not(:disabled):hover {
+  background: color-mix(in srgb, var(--gold) 88%, var(--amber));
+}
+
+.auth-submit svg {
+  width: 18px;
+  height: 18px;
+}
+
+.auth-form .form-error {
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: var(--red-tint);
+  font-size: var(--font-size-base);
+}
+
+.auth-foot {
+  color: var(--muted);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+@media (max-width: 860px) {
+  .auth-card {
+    grid-template-columns: 1fr;
+    border-radius: 24px;
+  }
+
+  .auth-art {
+    display: none;
+  }
 }

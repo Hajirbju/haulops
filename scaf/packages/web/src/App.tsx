@@ -670,14 +670,40 @@ type LoginResult = {
   user: { id: string; username: string; nama: string; role: string; branchId: string; avatarUrl?: string | null };
 };
 
-const demoAccounts: Array<{ role: string; username: string; password: string }> = [
-  { role: 'Admin Mining', username: 'admin', password: 'password' },
-  { role: 'Supervisor', username: 'supervisor', password: 'password' },
-];
+// Ilustrasi panel login: dashboard + dump truck, warna brand (cokelat/emas).
+const LoginIllustration = () => (
+  <svg viewBox="0 0 460 480" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <rect width="460" height="480" fill="#F6EFE2" />
+    <path d="M0 300 Q70 250 140 290 T280 280 T460 270 V480 H0Z" fill="#EADFC8" />
+    <path d="M0 350 Q110 310 220 345 T460 335 V480 H0Z" fill="#E0CFA8" />
+    <rect x="48" y="48" width="300" height="214" rx="18" fill="#FFFFFF" stroke="#3E2D1E" strokeWidth="7" />
+    <circle cx="72" cy="70" r="4" fill="#3E2D1E" /><circle cx="86" cy="70" r="4" fill="#3E2D1E" /><circle cx="100" cy="70" r="4" fill="#3E2D1E" />
+    <rect x="68" y="88" width="64" height="7" rx="3.5" fill="#E8DFCF" />
+    <path d="M70 200 L110 168 L140 184 L180 140 L214 156 L250 112 L296 128" fill="none" stroke="#E8A830" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="110" cy="168" r="5" fill="#fff" stroke="#E8A830" strokeWidth="3" /><circle cx="180" cy="140" r="5" fill="#fff" stroke="#E8A830" strokeWidth="3" /><circle cx="250" cy="112" r="5" fill="#fff" stroke="#E8A830" strokeWidth="3" />
+    <rect x="68" y="214" width="14" height="30" rx="3" fill="#C4A882" /><rect x="90" y="204" width="14" height="40" rx="3" fill="#C4A882" /><rect x="112" y="192" width="14" height="52" rx="3" fill="#9E7B55" />
+    <circle cx="276" cy="212" r="26" fill="none" stroke="#E8DFCF" strokeWidth="14" />
+    <circle cx="276" cy="212" r="26" fill="none" stroke="#E8A830" strokeWidth="14" strokeDasharray="100 163" transform="rotate(-90 276 212)" />
+    <rect x="316" y="96" width="112" height="46" rx="12" fill="#3E2D1E" />
+    <circle cx="340" cy="119" r="12" fill="#E8C84A" /><path d="M334 119 L338.5 123.5 L346 114.5" fill="none" stroke="#3E2D1E" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+    <rect x="360" y="112" width="52" height="5" rx="2.5" fill="#F6EFE2" /><rect x="360" y="124" width="36" height="5" rx="2.5" fill="#C4A882" />
+    <path d="M0 418 Q230 392 460 416 V480 H0Z" fill="#9E7B55" />
+    <path d="M0 418 Q230 392 460 416" fill="none" stroke="#E8C84A" strokeWidth="5" />
+    <path d="M86 322 L252 322 L276 396 L86 396Z" fill="#E8A830" />
+    <path d="M118 322 L130 396 M162 322 L170 396 M206 322 L212 396" stroke="#C98A1E" strokeWidth="5" />
+    <path d="M260 352 L312 352 L344 384 L344 404 L260 404Z" fill="#3E2D1E" />
+    <path d="M272 360 L306 360 L330 384 L272 384Z" fill="#F6EFE2" />
+    <rect x="80" y="396" width="268" height="12" rx="3" fill="#241A12" />
+    <circle cx="138" cy="414" r="22" fill="#241A12" /><circle cx="138" cy="414" r="9" fill="#C4A882" />
+    <circle cx="214" cy="414" r="22" fill="#241A12" /><circle cx="214" cy="414" r="9" fill="#C4A882" />
+    <circle cx="302" cy="414" r="22" fill="#241A12" /><circle cx="302" cy="414" r="9" fill="#C4A882" />
+  </svg>
+);
 
 const LoginPage = ({ onLogin }: { onLogin: (user: SessionUser) => void }) => {
   const [username, setUsername] = useState('admin');
   const [password, setPassword] = useState('password');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -696,48 +722,47 @@ const LoginPage = ({ onLogin }: { onLogin: (user: SessionUser) => void }) => {
   };
 
   return (
-    <main className="login-page">
-      <section className="login-hero">
-        <img className="login-logo" src={logoFull} alt="HAULOPS" />
-        <h1>Operasi hauling, shift, dan approval dalam satu sistem.</h1>
-      </section>
+    <main className="auth-page">
+      <div className="auth-card">
+        <div className="auth-art" aria-hidden="true">
+          <LoginIllustration />
+        </div>
 
-      <section className="login-panel">
-        <form className="login-box" onSubmit={submit}>
-          <div>
-            <h2>Selamat Datang</h2>
-            <p>Masuk ke akun operasional Anda.</p>
+        <form className="auth-form" onSubmit={submit}>
+          <img className="auth-logo" src={logoFull} alt="HAULOPS" />
+          <div className="auth-head">
+            <h1>Masuk ke Akun</h1>
+            <p>Silakan masukkan kredensial Anda</p>
           </div>
-          <label>
+          <label className="auth-field">
             Username
-            <input value={username} onChange={(event) => setUsername(event.target.value)} />
+            <span className="auth-input">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+              <input value={username} onChange={(event) => setUsername(event.target.value)} autoComplete="username" />
+            </span>
           </label>
-          <label>
+          <label className="auth-field">
             Password
-            <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
-          </label>
-          {error ? <div className="form-error">{error}</div> : null}
-          <button className="primary-action" type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Memproses...' : 'Masuk ke Sistem'}
-          </button>
-          <div className="demo-list">
-            {demoAccounts.map((account) => (
-              <button
-                type="button"
-                key={account.username}
-                onClick={() => {
-                  setUsername(account.username);
-                  setPassword(account.password);
-                  setError('');
-                }}
-              >
-                <strong>{account.role}</strong>
-                <span>{account.username} / {account.password}</span>
+            <span className="auth-input">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+              <input type={showPassword ? 'text' : 'password'} value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" />
+              <button type="button" className="auth-eye" onClick={() => setShowPassword((v) => !v)} aria-label={showPassword ? 'Sembunyikan password' : 'Tampilkan password'}>
+                {showPassword ? (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" /><line x1="1" y1="1" x2="23" y2="23" /></svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>
+                )}
               </button>
-            ))}
-          </div>
+            </span>
+          </label>
+          {error ? <div className="form-error" role="alert">{error}</div> : null}
+          <button className="auth-submit" type="submit" disabled={isSubmitting}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" /><polyline points="10 17 15 12 10 7" /><line x1="15" y1="12" x2="3" y2="12" /></svg>
+            {isSubmitting ? 'Memproses...' : 'Masuk'}
+          </button>
         </form>
-      </section>
+      </div>
+      <p className="auth-foot">© {new Date().getFullYear()} HAULOPS · Smart Mining Transaction System</p>
     </main>
   );
 };
