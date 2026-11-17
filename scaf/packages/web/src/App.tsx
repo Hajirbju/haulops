@@ -1696,7 +1696,7 @@ const ShiftPage = () => {
                   </select>
                 </label>
               </div>
-              <div className="modal-note" style={{ background: '#fff3cd', borderColor: '#f0d08a', color: '#8b6914' }}>
+              <div className="modal-note modal-note--warn">
                 Unit yang cocok akan tercentang dengan operator & material dari shift sumber. Sisanya tetap default.
               </div>
             </div>
@@ -1771,7 +1771,7 @@ const ShiftPage = () => {
               <button className="modal-close" type="button" onClick={() => setCloseTarget(null)} aria-label="Tutup">✕</button>
             </div>
             <div className="modal-body">
-              <div className="modal-note" style={{ background: '#fff3cd', borderColor: '#f0d08a', color: '#8b6914' }}>
+              <div className="modal-note modal-note--warn">
                 Pastikan seluruh data rit, delay, BBM, dan maintenance sudah lengkap sebelum menutup shift.
               </div>
               <div className="close-summary">
@@ -2578,7 +2578,7 @@ const RitPage = () => {
               <button className="modal-close" type="button" onClick={() => setDeleteTarget(null)} aria-label="Tutup">✕</button>
             </div>
             <div className="modal-body">
-              <div className="modal-note" style={{ background: '#f7e0e2', borderColor: '#e2b6ba', color: 'var(--red)' }}>
+              <div className="modal-note modal-note--danger">
                 Hapus rit <strong>{deleteTarget.noRit}</strong>? Tindakan ini tidak dapat dibatalkan.
               </div>
             </div>
@@ -3105,11 +3105,11 @@ const ApprovalPage = () => {
                   {(keys.length ? keys : [req.field]).map((k) => (
                     <div key={k} style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr', gap: 10, alignItems: 'center' }}>
                       <span style={{ fontWeight: 800, fontSize: 12, textTransform: 'uppercase', color: 'var(--muted)' }}>{k}</span>
-                      <div style={{ background: '#f7e0e2', color: 'var(--red)', borderRadius: 8, padding: '8px 10px', fontSize: 13 }}>
+                      <div className="modal-note modal-note--danger">
                         <div style={{ fontSize: 10, textTransform: 'uppercase' }}>Nilai Lama</div>
                         <strong>{String(old[k] ?? '-')}</strong>
                       </div>
-                      <div style={{ background: '#e3f2e8', color: 'var(--green)', borderRadius: 8, padding: '8px 10px', fontSize: 13 }}>
+                      <div className="modal-note modal-note--ok">
                         <div style={{ fontSize: 10, textTransform: 'uppercase' }}>Nilai Baru</div>
                         <strong>{String(changes[k] ?? '-')}</strong>
                       </div>
@@ -3760,7 +3760,7 @@ const DelayPage = () => {
               <button className="modal-close" type="button" onClick={() => setDeleteDelay(null)} aria-label="Tutup">✕</button>
             </div>
             <div className="modal-body">
-              <div className="modal-note" style={{ background: '#f7e0e2', borderColor: '#e2b6ba', color: 'var(--red)' }}>
+              <div className="modal-note modal-note--danger">
                 Hapus delay <strong>{deleteDelay.delayType?.nama ?? deleteDelay.delayTypeId}</strong> ({deleteDelay.durasiMenit} mnt)? Tindakan ini tidak dapat dibatalkan.
               </div>
             </div>
@@ -4285,7 +4285,7 @@ const MaintenancePage = () => {
               <button className="modal-close" type="button" onClick={() => setDeleteRecord(null)} aria-label="Tutup">✕</button>
             </div>
             <div className="modal-body">
-              <div className="modal-note" style={{ background: '#f7e0e2', borderColor: '#e2b6ba', color: 'var(--red)' }}>
+              <div className="modal-note modal-note--danger">
                 Hapus record maintenance <strong>{deleteRecord.unit?.kode ?? deleteRecord.unitId}</strong> ({jenisLabel[deleteRecord.jenis]})? Tindakan ini tidak dapat dibatalkan.
               </div>
             </div>
@@ -4845,7 +4845,7 @@ const BbmPage = () => {
               <button className="modal-close" type="button" onClick={() => setDeleteLog(null)} aria-label="Tutup">✕</button>
             </div>
             <div className="modal-body">
-              <div className="modal-note" style={{ background: '#f7e0e2', borderColor: '#e2b6ba', color: 'var(--red)' }}>
+              <div className="modal-note modal-note--danger">
                 Hapus pengisian BBM <strong>{deleteLog.unit?.kode ?? deleteLog.unitId}</strong> ({formatNumber(deleteLog.liter)} L)? Tindakan ini tidak dapat dibatalkan.
               </div>
             </div>
@@ -5558,7 +5558,7 @@ const ConfirmDelete = ({ open, label, onClose, onConfirm }: { open: boolean; lab
           <button className="modal-close" type="button" onClick={onClose} aria-label="Tutup">✕</button>
         </div>
         <div className="modal-body">
-          <div className="modal-note" style={{ background: '#f7e0e2', borderColor: '#e2b6ba', color: 'var(--red)' }}>
+          <div className="modal-note modal-note--danger">
             Hapus <strong>{label}</strong>? Tindakan ini tidak dapat dibatalkan.
           </div>
         </div>
