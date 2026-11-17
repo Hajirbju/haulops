@@ -1116,11 +1116,6 @@ const Dashboard = ({ health }: { health: HealthState }) => {
 
   return (
     <>
-      <PageHeader
-        title="Dashboard Operasional"
-        description="Monitoring harian: PA/UA, breakdown, delay, produksi, revenue, dan rasio BBM dibandingkan budget/target."
-        action={<a className="primary-link" href="#/reports">Lihat Laporan</a>}
-      />
       <section className="toolbar-panel">
         <label>Tanggal<input type="date" value={tanggal} onChange={(e) => setTanggal(e.target.value)} /></label>
         <label>Branch
@@ -1131,6 +1126,7 @@ const Dashboard = ({ health }: { health: HealthState }) => {
         <label className="toolbar-toggle">
           <input type="checkbox" checked={compareMode} onChange={(e) => setCompareMode(e.target.checked)} /> Semua Branch (bandingkan)
         </label>
+        <a className="primary-link toolbar-action" href="#/reports">Lihat Laporan</a>
       </section>
 
       {error ? <div className="inline-alert">{error}</div> : null}

@@ -2884,3 +2884,8 @@ tbody tr:hover {
 .budget-card {
   border-radius: var(--r-ctl);
 }
+
+/* Tombol aksi di baris yang sama dengan filter, rata kanan. */
+.toolbar-panel .toolbar-action {
+  margin-left: auto;
+}
