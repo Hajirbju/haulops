@@ -3002,3 +3002,140 @@ button.sidebar-logo:focus-visible {
     display: none;
   }
 }
+
+/* ---- Tab bar (Approval, dan modul lain yang butuh tab) ---- */
+.tab-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tab-bar .tab {
+  min-height: 38px;
+  margin-bottom: -1px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding: 0 14px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.tab-bar .tab:not(:disabled):hover {
+  background: transparent;
+  color: var(--text);
+}
+
+.tab-bar .tab.active {
+  border-bottom-color: var(--amber);
+  color: var(--text);
+  font-weight: var(--font-weight-semibold);
+}
+
+.tab-bar-end {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 6px auto;
+}
+
+/* ---- Bar aksi massal ---- */
+.bulk-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.check-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+}
+
+.bulk-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* ---- Kartu approval ---- */
+.approval-card {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 14px 16px;
+}
+
+.approval-card p {
+  margin: 0;
+  font-size: var(--font-size-base);
+}
+
+.approval-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.approval-head .status-badge {
+  margin-left: auto;
+}
+
+.approval-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.kv-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+  margin: 0;
+}
+
+.kv-row dt {
+  color: var(--muted);
+  font-size: var(--font-size-sm);
+}
+
+.kv-row dd {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.diff-list {
+  display: grid;
+  gap: 6px;
+}
+
+.diff-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 10px;
+  font-size: var(--font-size-base);
+}
+
+.diff-old {
+  color: var(--red);
+}
+
+.diff-new {
+  color: var(--green);
+}
+
+/* Slot aksi di topbar (diisi lewat portal, mis. tombol Tambah di Master Data). */
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}

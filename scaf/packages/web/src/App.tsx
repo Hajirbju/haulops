@@ -1,4 +1,5 @@
 import { FormEvent, Fragment, useEffect, useMemo, useState, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import multiavatar from '@multiavatar/multiavatar/esm';
 import './styles.css';
 import logoFull from './assets/brand/haulops-logo.svg';
@@ -875,6 +876,7 @@ const Shell = ({ user, onLogout }: { user: SessionUser; onLogout: () => void }) 
       <section className="main-wrapper">
         <header className="topbar">
           <h1>{routeLabels[route]}</h1>
+          <div id="topbar-actions" className="topbar-actions" />
         </header>
         <main className="page-content">
           <Page route={route} health={health} />
@@ -2917,55 +2919,50 @@ const ApprovalPage = () => {
 
   return (
     <>
-      <PageHeader
-        title="Approval & Edit Request"
-        description="Review shift pending dan edit request; approve/reject satuan atau bulk, lengkap dengan riwayat."
-        action={
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            <span className="status-badge pending">{pendingShifts.length + editRequests.length} Menunggu Review</span>
-            <button onClick={loadAll}>Segarkan</button>
-          </div>
-        }
-      />
       {message ? <div className="inline-alert">{message}</div> : null}
 
-      <section className="toolbar-panel">
+      <div className="tab-bar">
         {tabs.map((t) => (
-          <button key={t.key} type="button" className={tab === t.key ? 'primary-link' : ''} onClick={() => setTab(t.key)}>
+          <button key={t.key} type="button" className={tab === t.key ? 'tab active' : 'tab'} onClick={() => setTab(t.key)}>
             {t.label}{t.count ? ` (${t.count})` : ''}
           </button>
         ))}
-      </section>
+        <div className="tab-bar-end">
+          <span className="status-badge pending">{pendingShifts.length + editRequests.length} menunggu review</span>
+          <button type="button" onClick={loadAll}>Segarkan</button>
+        </div>
+      </div>
 
       {tab === 'shifts' ? (
         <>
-          <section className="toolbar-panel" style={{ alignItems: 'center' }}>
-            <label style={{ minWidth: 'auto', flexDirection: 'row', alignItems: 'center', textTransform: 'none' }}>
+          <div className="bulk-bar">
+            <label className="check-label">
               <input
                 type="checkbox"
                 checked={pendingShifts.length > 0 && selShifts.length === pendingShifts.length}
                 onChange={(e) => setSelShifts(e.target.checked ? pendingShifts.map((s) => s.id) : [])}
-              /> &nbsp;Pilih Semua ({selShifts.length})
+              />
+              Pilih semua{selShifts.length ? ` (${selShifts.length})` : ''}
             </label>
-            <div style={{ display: 'flex', gap: 8, marginLeft: 'auto' }}>
-              <button type="button" className="btn-gold-sm" onClick={() => bulkShift('approve')}>Approve Selected</button>
-              <button type="button" className="btn-danger-sm" onClick={() => bulkShift('reject')}>Reject Selected</button>
+            <div className="bulk-actions">
+              <button type="button" className="btn-danger-sm" disabled={!selShifts.length} onClick={() => bulkShift('reject')}>Reject</button>
+              <button type="button" className="btn-gold-sm" disabled={!selShifts.length} onClick={() => bulkShift('approve')}>Approve</button>
             </div>
-          </section>
+          </div>
           {pendingShifts.map((shift) => (
-            <section className="card" key={shift.id}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-                <input type="checkbox" checked={selShifts.includes(shift.id)} onChange={() => toggleSel(setSelShifts, shift.id)} />
-                <strong style={{ color: 'var(--brown-deep)' }}>⏳ {formatShiftType(shift.tipe)} — {formatDate(shift.tanggal)}</strong>
-                <span className="status-badge pending" style={{ marginLeft: 'auto' }}>Pending Approval</span>
+            <section className="card approval-card" key={shift.id}>
+              <div className="approval-head">
+                <input type="checkbox" checked={selShifts.includes(shift.id)} onChange={() => toggleSel(setSelShifts, shift.id)} aria-label="Pilih shift" />
+                <strong>{formatShiftType(shift.tipe)} — {formatDate(shift.tanggal)}</strong>
+                <span className="status-badge pending">Pending Approval</span>
               </div>
-              <div className="stat-grid">
-                <article className="stat-card"><span>Ritase</span><strong>{shift.ritase}</strong></article>
-                <article className="stat-card"><span>Tonase</span><strong>{formatNumber(shift.tonase)} t</strong></article>
-                <article className="stat-card"><span>PA</span><strong>{shift.kpi.pa}%</strong></article>
-                <article className="stat-card"><span>UA</span><strong>{shift.kpi.ua}%</strong></article>
-              </div>
-              <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 12 }}>
+              <dl className="kv-row">
+                <div><dt>Ritase</dt><dd>{shift.ritase}</dd></div>
+                <div><dt>Tonase</dt><dd>{formatNumber(shift.tonase)} t</dd></div>
+                <div><dt>PA</dt><dd>{shift.kpi.pa}%</dd></div>
+                <div><dt>UA</dt><dd>{shift.kpi.ua}%</dd></div>
+              </dl>
+              <div className="approval-actions">
                 <button type="button" className="btn-danger-sm" onClick={() => decideShift(shift.id, 'reject')}>Reject</button>
                 <button type="button" className="primary-link" onClick={() => decideShift(shift.id, 'approve')}>Approve Shift</button>
               </div>
@@ -2979,47 +2976,41 @@ const ApprovalPage = () => {
 
       {tab === 'editreq' ? (
         <>
-          <section className="toolbar-panel" style={{ alignItems: 'center' }}>
-            <label style={{ minWidth: 'auto', flexDirection: 'row', alignItems: 'center', textTransform: 'none' }}>
+          <div className="bulk-bar">
+            <label className="check-label">
               <input
                 type="checkbox"
                 checked={editRequests.length > 0 && selEr.length === editRequests.length}
                 onChange={(e) => setSelEr(e.target.checked ? editRequests.map((r) => r.id) : [])}
-              /> &nbsp;Pilih Semua ({selEr.length})
+              />
+              Pilih semua{selEr.length ? ` (${selEr.length})` : ''}
             </label>
-            <div style={{ display: 'flex', gap: 8, marginLeft: 'auto' }}>
-              <button type="button" className="btn-gold-sm" onClick={() => bulkEr('approve')}>Approve Selected</button>
-              <button type="button" className="btn-danger-sm" onClick={() => bulkEr('reject')}>Reject Selected</button>
+            <div className="bulk-actions">
+              <button type="button" className="btn-danger-sm" disabled={!selEr.length} onClick={() => bulkEr('reject')}>Reject</button>
+              <button type="button" className="btn-gold-sm" disabled={!selEr.length} onClick={() => bulkEr('approve')}>Approve</button>
             </div>
-          </section>
+          </div>
           {editRequests.map((req) => {
             const changes = parseJsonSafe(req.nilaiBaru);
             const old = parseJsonSafe(req.nilaiLama);
             const keys = Object.keys(changes);
             return (
-              <section className="card" key={req.id}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-                  <input type="checkbox" checked={selEr.includes(req.id)} onChange={() => toggleSel(setSelEr, req.id)} />
-                  <strong style={{ color: 'var(--brown-deep)' }}>{req.tipe} · {req.recordId.slice(0, 12)}</strong>
+              <section className="card approval-card" key={req.id}>
+                <div className="approval-head">
+                  <input type="checkbox" checked={selEr.includes(req.id)} onChange={() => toggleSel(setSelEr, req.id)} aria-label="Pilih edit request" />
+                  <strong>{req.tipe} · {req.recordId.slice(0, 12)}</strong>
                   <span className="muted">{new Date(req.createdAt).toLocaleString('id-ID')}</span>
                 </div>
-                <div style={{ display: 'grid', gap: 8 }}>
+                <div className="diff-list">
                   {(keys.length ? keys : [req.field]).map((k) => (
-                    <div key={k} style={{ display: 'grid', gridTemplateColumns: '120px 1fr 1fr', gap: 10, alignItems: 'center' }}>
-                      <span style={{ fontWeight: 800, fontSize: 12, textTransform: 'uppercase', color: 'var(--muted)' }}>{k}</span>
-                      <div className="modal-note modal-note--danger">
-                        <div style={{ fontSize: 10, textTransform: 'uppercase' }}>Nilai Lama</div>
-                        <strong>{String(old[k] ?? '-')}</strong>
-                      </div>
-                      <div className="modal-note modal-note--ok">
-                        <div style={{ fontSize: 10, textTransform: 'uppercase' }}>Nilai Baru</div>
-                        <strong>{String(changes[k] ?? '-')}</strong>
-                      </div>
+                    <div className="diff-row" key={k}>
+                      <span className="muted">{k}</span>
+                      <span><s className="diff-old">{String(old[k] ?? '-')}</s> → <strong className="diff-new">{String(changes[k] ?? '-')}</strong></span>
                     </div>
                   ))}
                 </div>
-                <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 10 }}>Alasan: {req.alasan}</p>
-                <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+                <p className="muted">Alasan: {req.alasan}</p>
+                <div className="approval-actions">
                   <button type="button" className="btn-danger-sm" onClick={() => decideEr(req.id, 'reject')}>Reject</button>
                   <button type="button" className="btn-gold-sm" onClick={() => decideEr(req.id, 'approve')}>Approve</button>
                 </div>
@@ -5393,12 +5384,19 @@ const Avatar = ({ seed, size = 38 }: { seed: string; size?: number }) => {
   );
 };
 
-const MasterBar = ({ label, onAdd, extra }: { label: string; onAdd: () => void; extra?: React.ReactNode }) => (
-  <div className="master-bar">
-    {extra}
-    <button className="primary-link" type="button" onClick={onAdd}>+ {label}</button>
-  </div>
-);
+// Tombol aksi Master Data dirender (via portal) di dalam topbar, sejajar dengan judul halaman.
+const MasterBar = ({ label, onAdd, extra }: { label: string; onAdd: () => void; extra?: React.ReactNode }) => {
+  const [slot, setSlot] = useState<HTMLElement | null>(null);
+  useEffect(() => { setSlot(document.getElementById('topbar-actions')); }, []);
+  if (!slot) return null;
+  return createPortal(
+    <>
+      {extra}
+      <button className="primary-link" type="button" onClick={onAdd}>+ {label}</button>
+    </>,
+    slot,
+  );
+};
 
 const RowActions = ({ onView, onEdit, onDelete }: { onView?: () => void; onEdit?: () => void; onDelete?: () => void }) => (
   <div className="rowact">
