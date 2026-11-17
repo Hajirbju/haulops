@@ -2940,22 +2940,17 @@ tbody tr:hover {
 }
 
 /* Form input cepat: satu kontainer tipis, satu baris. */
-.toolbar-panel.entry-panel {
-  margin-bottom: 16px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-box);
-  padding: 14px 16px;
-  background: var(--card);
+
+
+
+
+/* Tombol utama di footer modal harus tetap emas (menang atas .modal-footer button). */
+.modal-footer .primary-link {
+  background: var(--gold);
+  color: var(--on-accent);
+  font-weight: var(--font-weight-semibold);
 }
 
-.entry-panel label {
-  min-width: 120px;
-}
-
-.entry-panel label.entry-grow {
-  flex: 1 1 200px;
-}
-
-.entry-panel input {
-  width: 100%;
+.modal-footer .primary-link:hover {
+  background: color-mix(in srgb, var(--gold) 88%, var(--amber));
 }

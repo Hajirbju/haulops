@@ -2121,11 +2121,6 @@ const RitPage = () => {
   const [shiftId, setShiftId] = useState<string>('');
   const [unitId, setUnitId] = useState('');
   const [operatorId, setOperatorId] = useState('');
-  const [material, setMaterial] = useState('Batu');
-  const [jumlahRit, setJumlahRit] = useState(1);
-  const [grossKg, setGrossKg] = useState<number | undefined>(undefined);
-  const [tareKg, setTareKg] = useState<number | undefined>(undefined);
-  const [catatan, setCatatan] = useState('');
   const [editTargetId, setEditTargetId] = useState<string | null>(null);
   const [editMaterial, setEditMaterial] = useState('');
   const [editJumlahRit, setEditJumlahRit] = useState(1);
@@ -2250,42 +2245,13 @@ const RitPage = () => {
     }
   };
 
-  const createRit = async () => {
-    if (!shiftId || !unitId || !material.trim()) {
-      setMessage('Pilih shift, unit, dan material untuk membuat rit.');
-      return;
-    }
-
-    try {
-      const payload = {
-        shiftId,
-        unitId,
-        operatorId: operatorId || undefined,
-        material,
-        jumlahRit,
-        grossKg,
-        tareKg,
-        catatan,
-      };
-      const created = await apiPost<Rit>('/api/v1/rits', payload);
-      setMessage(`RIT ${created.noRit} berhasil disimpan.`);
-      setCatatan('');
-      setJumlahRit(1);
-      setGrossKg(undefined);
-      setTareKg(undefined);
-      loadRits();
-    } catch {
-      setMessage('Gagal menyimpan rit. Periksa data dan coba lagi.');
-    }
-  };
-
   // ---- Batch input (grid) ----
   const newGridRow = (): RitRow => ({
     unitId: unitId || units[0]?.id || '',
     operatorId: operatorId || operators[0]?.id || '',
     pitId: pits[0]?.id || '',
     stockpileId: stockpiles[0]?.id || '',
-    material: material || 'OB',
+    material: 'Batu',
     jumlahRit: 1,
     grossKg: undefined,
     tareKg: undefined,
@@ -2715,45 +2681,6 @@ const RitPage = () => {
           </div>
         </div>
       ) : null}
-
-      <section className="toolbar-panel entry-panel">
-        <label>
-          Material
-          <input value={material} onChange={(event) => setMaterial(event.target.value)} />
-        </label>
-        <label>
-          Jumlah Rit
-          <input
-            type="number"
-            min="1"
-            value={jumlahRit}
-            onChange={(event) => setJumlahRit(Number(event.target.value) || 1)}
-          />
-        </label>
-        <label>
-          Gross (kg)
-          <input
-            type="number"
-            value={grossKg ?? ''}
-            onChange={(event) => setGrossKg(event.target.value ? Number(event.target.value) : undefined)}
-          />
-        </label>
-        <label>
-          Tare (kg)
-          <input
-            type="number"
-            value={tareKg ?? ''}
-            onChange={(event) => setTareKg(event.target.value ? Number(event.target.value) : undefined)}
-          />
-        </label>
-        <label className="entry-grow">
-          Catatan
-          <input value={catatan} onChange={(event) => setCatatan(event.target.value)} />
-        </label>
-        <button className="primary-link" onClick={createRit} type="button">
-          Simpan
-        </button>
-      </section>
 
       {editTargetId ? (
         <section className="card">
