@@ -1781,9 +1781,6 @@ const ShiftPage = () => {
                 <div><span>Unit aktif</span><strong>{closeTarget.unitAktif} DT</strong></div>
                 <div><span>PA rata-rata</span><strong>{closeTarget.kpi.pa}%</strong></div>
               </div>
-              <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 12 }}>
-                Shift yang ditutup masuk status <strong>Pending Approval</strong> dan Supervisor akan dinotifikasi.
-              </p>
             </div>
             <div className="modal-footer">
               <button type="button" onClick={() => setCloseTarget(null)}>Batal</button>
@@ -1810,7 +1807,6 @@ const ShiftPage = () => {
           <div>
             <span>Shift Aktif Sekarang</span>
             <strong>Belum ada shift open</strong>
-            <p>Pilih tanggal dan tipe shift, lalu buka shift baru untuk branch aktif.</p>
           </div>
         </section>
       )}
@@ -5183,19 +5179,6 @@ const AnalyticPage = () => {
 
       {message ? <div className="inline-alert">{message}</div> : null}
 
-      {basisUsed.size ? (
-        <p style={{ color: 'var(--muted)', fontSize: 'var(--font-size-sm)', margin: '0 0 12px' }}>
-          Input dasar dipakai bulan ini:{' '}
-          {Array.from(basisUsed.values()).map((b, i) => (
-            <span key={i}>{i ? ' · ' : ''}<strong>{b.tipeUnitKode}/{b.materialKode}</strong> ({fmt1(b.ewhPerUnitJam)}j × {b.jumlahUnitPlan} × {fmt1(b.produktivitasTonPerJam)}t, sejak {b.berlakuDari})</span>
-          ))}
-        </p>
-      ) : (
-        <p style={{ color: 'var(--muted)', fontSize: 'var(--font-size-sm)', margin: '0 0 12px' }}>
-          Belum ada input dasar untuk branch ini — Target Produksi belum bisa dihitung. Isi di Master Data → Budget &amp; Target → "Input Dasar Target Produksi".
-        </p>
-      )}
-
       <section className="card">
         <CardHeader title={data ? `Raw Data Harian — ${data.branch.nama}` : 'Raw Data Harian'} meta={data ? `${data.jumlahHari} hari` : ''} />
         <div className="table-wrap">
@@ -7229,10 +7212,6 @@ const MasterBasisTargetProduksi = () => {
         <button className="btn-gold-sm" type="button" onClick={openAdd}>+ Tambah</button>
       </div>
       <div style={{ padding: '12px 18px 0' }}>
-        <p style={{ color: 'var(--muted)', fontSize: 'var(--font-size-sm)', margin: '0 0 8px' }}>
-          Target Produksi harian diturunkan otomatis: <strong>EWH/unit × Jumlah Unit Plan × Produktivitas</strong>.
-          Berlaku sejak tanggal tertentu (histori versi lama tidak ditimpa). Dipakai modul Analytic.
-        </p>
         {message ? <div className="inline-alert" style={{ margin: 0 }}>{message}</div> : null}
         <label style={{ display: 'inline-flex', flexDirection: 'column', gap: 4, marginTop: 8 }}>Branch
           <select value={branchId} onChange={(e) => setBranchId(e.target.value)} style={{ minWidth: 200 }}>
@@ -7293,9 +7272,9 @@ const BULAN_OPTS = [
 type BTField = { name: string; label: string; integer?: boolean };
 type BTRow = { key: string; label: string; sublabel?: string; dims: Record<string, string> };
 
-const BudgetTargetCard = ({ title, endpoint, rows, fields, bulan, tahun, reloadToken, note, dimLabel, unitHint }: {
+const BudgetTargetCard = ({ title, endpoint, rows, fields, bulan, tahun, reloadToken, dimLabel, unitHint }: {
   title: string; endpoint: string; rows: BTRow[]; fields: BTField[];
-  bulan: string; tahun: string; reloadToken: number; note?: string; dimLabel: string; unitHint?: string;
+  bulan: string; tahun: string; reloadToken: number; dimLabel: string; unitHint?: string;
 }) => {
   type Rec = Record<string, unknown> & { id: string };
   const [records, setRecords] = useState<Rec[]>([]);
@@ -7357,10 +7336,9 @@ const BudgetTargetCard = ({ title, endpoint, rows, fields, bulan, tahun, reloadT
         </div>
         <button className="btn-gold-sm" type="button" onClick={openAdd}>+ Tambah</button>
       </div>
-      {note || msg ? (
+      {msg ? (
         <div style={{ padding: '12px 18px 0' }}>
-          {note ? <p style={{ color: 'var(--muted)', fontSize: 'var(--font-size-sm)', margin: '0 0 8px' }}>{note}</p> : null}
-          {msg ? <div className="inline-alert" style={{ margin: 0 }}>{msg}</div> : null}
+          <div className="inline-alert" style={{ margin: 0 }}>{msg}</div>
         </div>
       ) : null}
       <div className="table-wrap">
@@ -7492,7 +7470,7 @@ const MasterBudgetTarget = () => {
       </MasterAddModal>
 
       <BudgetTargetCard title="1. Budget Breakdown per Unit" endpoint="budget-breakdown-units" dimLabel="Unit" rows={unitRows} bulan={bulan} tahun={tahun} reloadToken={reloadToken}
-        fields={[{ name: 'budgetJamPerHari', label: 'Jam / Hari' }]} unitHint="jam/hari" note="Batas maksimal jam downtime (breakdown) per unit per hari." />
+        fields={[{ name: 'budgetJamPerHari', label: 'Jam / Hari' }]} unitHint="jam/hari" />
       <BudgetTargetCard title="2. Target Produksi Bulanan (per Branch)" endpoint="target-produksi-branch" dimLabel="Branch" rows={branchRows} bulan={bulan} tahun={tahun} reloadToken={reloadToken}
         fields={[{ name: 'targetTon', label: 'Target Ton' }]} unitHint="ton" />
       <BudgetTargetCard title="3. Budget Ratio BBM (per Tipe Unit)" endpoint="budget-ratio-bbm" dimLabel="Tipe Unit" rows={tipeRows} bulan={bulan} tahun={tahun} reloadToken={reloadToken}
@@ -7504,8 +7482,7 @@ const MasterBudgetTarget = () => {
       <BudgetTargetCard title="6 & 7. Target Ritase & Tonase Bulanan (per Material, per Branch)" endpoint="target-material-bulanan" dimLabel="Material" rows={materialRows} bulan={bulan} tahun={tahun} reloadToken={reloadToken}
         fields={[{ name: 'targetRitase', label: 'Target Ritase', integer: true }, { name: 'targetTon', label: 'Target Ton' }]} />
       <BudgetTargetCard title="8. Target PA% & UA% (per Branch)" endpoint="target-availability-branch" dimLabel="Branch" rows={branchRows} bulan={bulan} tahun={tahun} reloadToken={reloadToken}
-        fields={[{ name: 'targetPaPct', label: 'Target PA%' }, { name: 'targetUaPct', label: 'Target UA%' }]}
-        note="Dibandingkan ke PA%/UA% aktual (dihitung dari jam terjadwal, breakdown, dan delay) di Dashboard Monitoring Harian." />
+        fields={[{ name: 'targetPaPct', label: 'Target PA%' }, { name: 'targetUaPct', label: 'Target UA%' }]} />
       <MasterBasisTargetProduksi />
     </>
   );
