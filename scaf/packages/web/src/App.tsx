@@ -3338,17 +3338,6 @@ const DelayPage = () => {
 
   return (
     <>
-      <PageHeader
-        title="Delay Operasional"
-        description="Catat delay fleet-wide atau per unit dengan jam mulai/selesai; realisasi dibandingkan budget per jenis delay."
-        action={
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button onClick={loadDelays}>Muat Ulang</button>
-            <button onClick={openFleet}>Input Delay Fleet</button>
-            <button className="primary-link" onClick={openUnit}>Input Delay Per Unit</button>
-          </div>
-        }
-      />
       {message ? <div className="inline-alert">{message}</div> : null}
 
       <section className="toolbar-panel">
@@ -3371,6 +3360,11 @@ const DelayPage = () => {
             ))}
           </select>
         </label>
+        <div className="toolbar-actions">
+          <button type="button" onClick={loadDelays}>Muat Ulang</button>
+          <button type="button" onClick={openFleet}>Input Delay Fleet</button>
+          <button className="primary-link" type="button" onClick={openUnit}>Input Delay Per Unit</button>
+        </div>
       </section>
 
       {/* Realisasi vs Budget */}
@@ -3967,16 +3961,6 @@ const MaintenancePage = () => {
 
   return (
     <>
-      <PageHeader
-        title="Maintenance Unit"
-        description="Input downtime 1x per unit per shift · Actual vs Budget Breakdown Hours · tandai Ready saat unit kembali beroperasi."
-        action={
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button onClick={loadRecords}>Muat Ulang</button>
-            <button className="primary-link" onClick={() => openInput()}>+ Input Downtime</button>
-          </div>
-        }
-      />
       {message ? <div className="inline-alert">{message}</div> : null}
 
       <section className="toolbar-panel">
@@ -3999,6 +3983,10 @@ const MaintenancePage = () => {
             ))}
           </select>
         </label>
+        <div className="toolbar-actions">
+          <button type="button" onClick={loadRecords}>Muat Ulang</button>
+          <button className="primary-link" type="button" onClick={() => openInput()}>+ Input Downtime</button>
+        </div>
       </section>
 
       <div className="stat-grid">
@@ -4472,16 +4460,6 @@ const BbmPage = () => {
 
   return (
     <>
-      <PageHeader
-        title="Konsumsi BBM"
-        description="Pencatatan konsumsi bahan bakar per unit per shift — input batch multi-baris, pantau total & rata-rata liter."
-        action={
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button onClick={loadLogs}>Muat Ulang</button>
-            <button className="primary-link" onClick={openGrid}>+ Input Pengisian BBM</button>
-          </div>
-        }
-      />
       {message ? <div className="inline-alert">{message}</div> : null}
 
       <section className="toolbar-panel">
@@ -4504,6 +4482,10 @@ const BbmPage = () => {
             ))}
           </select>
         </label>
+        <div className="toolbar-actions">
+          <button type="button" onClick={loadLogs}>Muat Ulang</button>
+          <button className="primary-link" type="button" onClick={openGrid}>+ Input Pengisian BBM</button>
+        </div>
       </section>
 
       <div className="stat-grid">
