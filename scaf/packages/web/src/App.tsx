@@ -1,6 +1,8 @@
 import { FormEvent, Fragment, useEffect, useMemo, useState, useCallback } from 'react';
 import multiavatar from '@multiavatar/multiavatar/esm';
 import './styles.css';
+import logoFull from './assets/brand/haulops-logo.svg';
+import logoMark from './assets/brand/haulops-mark-h.svg';
 
 // Toast notification system
 type ToastType = 'success' | 'error' | 'warning' | 'info';
@@ -696,12 +698,7 @@ const LoginPage = ({ onLogin }: { onLogin: (user: SessionUser) => void }) => {
   return (
     <main className="login-page">
       <section className="login-hero">
-        <div className="brand-mark">
-          <span>H</span>
-          <div>
-            <strong>HAULOPS</strong>
-          </div>
-        </div>
+        <img className="login-logo" src={logoFull} alt="HAULOPS" />
         <h1>Operasi hauling, shift, dan approval dalam satu sistem.</h1>
       </section>
 
@@ -819,8 +816,8 @@ const Shell = ({ user, onLogout }: { user: SessionUser; onLogout: () => void }) 
     <div className={`app-shell${collapsed ? ' sidebar-collapsed' : ''}`}>
       <aside className="sidebar">
         <button type="button" className="sidebar-logo" onClick={toggleSidebar} aria-label={collapsed ? 'Buka sidebar' : 'Ciutkan sidebar'} aria-expanded={!collapsed} title={collapsed ? 'Buka sidebar' : 'Ciutkan sidebar'}>
-          <span className="logo-box">H</span>
-          <strong>HAULOPS</strong>
+          <img className="logo-full" src={logoFull} alt="HAULOPS" />
+          <img className="logo-mark" src={logoMark} alt="" />
         </button>
         <div className="branch-card" title="Branch aktif">
           <strong>{branchName}</strong>
