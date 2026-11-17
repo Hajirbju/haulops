@@ -2992,3 +2992,12 @@ button.sidebar-logo:focus-visible {
   max-width: 100%;
   height: auto;
 }
+
+/* Logo sidebar rata tengah. */
+.sidebar-logo {
+  justify-content: center;
+}
+
+.sidebar-logo .logo-full {
+  margin: 0 auto;
+}
