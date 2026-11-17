@@ -2851,10 +2851,11 @@ button.sidebar-logo:focus-visible {
   background: #f6efe2;
 }
 
-.auth-art svg {
+.auth-art img {
   display: block;
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .auth-form {
