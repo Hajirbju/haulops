@@ -449,6 +449,7 @@ button {
   flex-direction: column;
   width: 248px;
   border-radius: 24px;
+  transition: width 0.2s ease;
   background: var(--brown-deep);
   color: var(--on-dark);
   overflow: hidden;
@@ -653,6 +654,7 @@ button {
   flex-direction: column;
   min-width: 0;
   margin-left: 272px;
+  transition: margin-left 0.2s ease;
 }
 
 .topbar {
@@ -663,7 +665,7 @@ button {
   min-height: 64px;
   align-items: center;
   gap: 16px;
-  margin: 12px 28px 0;
+  margin: 12px 12px 0;
   border: 1px solid var(--line);
   border-radius: 20px;
   padding: 12px 24px;
@@ -713,7 +715,7 @@ button {
 
 .page-content {
   flex: 1;
-  padding: 28px;
+  padding: 16px 12px 24px;
 }
 
 .page-header {
@@ -2372,4 +2374,101 @@ table thead th {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 14px;
+}
+
+
+/* ---- Topbar toggle & sidebar ciut (rail ikon) ---- */
+.topbar-toggle {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: var(--surface-2);
+  color: var(--text);
+  transition: background-color 0.15s ease;
+}
+
+.topbar-toggle:hover {
+  background: var(--cream-deep);
+}
+
+.topbar-toggle:focus-visible,
+.nav-group a:focus-visible,
+.sidebar-icon-btn:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.sidebar-collapsed .sidebar {
+  width: 72px;
+}
+
+.sidebar-collapsed .main-wrapper {
+  margin-left: 96px;
+}
+
+.sidebar-collapsed .sidebar-logo {
+  justify-content: center;
+  padding: 20px 0 8px;
+}
+
+.sidebar-collapsed .sidebar-logo strong,
+.sidebar-collapsed .branch-card,
+.sidebar-collapsed .nav-group p,
+.sidebar-collapsed .sidebar-user > div:not(.avatar) {
+  display: none;
+}
+
+.sidebar-collapsed .sidebar nav {
+  padding: 4px 10px 12px;
+}
+
+.sidebar-collapsed .nav-group + .nav-group {
+  margin-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 10px;
+}
+
+.sidebar-collapsed .nav-group a {
+  position: relative;
+  justify-content: center;
+  padding: 0;
+  font-size: 0;
+}
+
+.sidebar-collapsed .nav-group small {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 16px;
+  padding: 0 4px;
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.sidebar-collapsed .sidebar-footer {
+  margin: 0 10px 12px;
+  padding: 10px 6px;
+}
+
+.sidebar-collapsed .sidebar-user {
+  justify-content: center;
+}
+
+.sidebar-collapsed .sidebar-actions {
+  flex-direction: column;
+}
+
+@media (max-width: 720px) {
+  .sidebar-collapsed .sidebar {
+    width: auto;
+  }
+
+  .sidebar-collapsed .main-wrapper {
+    margin-left: 0;
+  }
 }

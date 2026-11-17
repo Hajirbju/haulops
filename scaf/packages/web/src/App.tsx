@@ -753,6 +753,17 @@ const Shell = ({ user, onLogout }: { user: SessionUser; onLogout: () => void }) 
   const [branchName, setBranchName] = useState(user.branchId);
   const [avatarSeed, setAvatarSeed] = useState(user.avatarUrl || user.username);
   const [theme, setThemeState] = useState<Theme>(() => getCurrentTheme());
+  const [collapsed, setCollapsed] = useState(() => {
+    try { return localStorage.getItem('haulops:sidebar-collapsed') === '1'; } catch { return false; }
+  });
+
+  const toggleSidebar = () => {
+    setCollapsed((prev) => {
+      const next = !prev;
+      try { localStorage.setItem('haulops:sidebar-collapsed', next ? '1' : '0'); } catch { /* abaikan */ }
+      return next;
+    });
+  };
 
   const toggleTheme = () => {
     const next: Theme = theme === 'dark' ? 'light' : 'dark';
@@ -805,7 +816,7 @@ const Shell = ({ user, onLogout }: { user: SessionUser; onLogout: () => void }) 
   );
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell${collapsed ? ' sidebar-collapsed' : ''}`}>
       <aside className="sidebar">
         <div className="sidebar-logo">
           <div className="logo-box">H</div>
@@ -819,7 +830,7 @@ const Shell = ({ user, onLogout }: { user: SessionUser; onLogout: () => void }) 
             <div className="nav-group" key={group.label}>
               <p>{group.label}</p>
               {group.items.map((item) => (
-                <a className={route === item.key ? 'active' : ''} href={`#/${item.key}`} key={item.key}>
+                <a className={route === item.key ? 'active' : ''} href={`#/${item.key}`} key={item.key} title={routeLabels[item.key]}>
                   <span className="nav-icon">{item.icon}</span>
                   {routeLabels[item.key]}
                   {item.badge ? <small>{item.badge}</small> : null}
@@ -870,6 +881,12 @@ const Shell = ({ user, onLogout }: { user: SessionUser; onLogout: () => void }) 
 
       <section className="main-wrapper">
         <header className="topbar">
+          <button type="button" className="topbar-toggle" onClick={toggleSidebar} aria-label={collapsed ? 'Buka sidebar' : 'Ciutkan sidebar'} aria-expanded={!collapsed} title={collapsed ? 'Buka sidebar' : 'Ciutkan sidebar'}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="4" width="18" height="16" rx="3" />
+              <path d="M9 4v16" />
+            </svg>
+          </button>
           <h1>{routeLabels[route]}</h1>
         </header>
         <main className="page-content">
